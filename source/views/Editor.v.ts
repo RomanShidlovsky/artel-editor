@@ -2,7 +2,7 @@ import { Grid, BlockArgs, Block, PlainText, HtmlText, lineFeed, Align, asCompone
 import * as s from "themes/Common.s"
 import * as monaco from 'monaco-editor'
 
-export function WorkArea(name: string,
+export function Editor(name: string,
   args?: BlockArgs<HTMLElement, void, void>) {
   return (
     Block(name, asComponent(args, {

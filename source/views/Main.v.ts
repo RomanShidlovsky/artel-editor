@@ -3,9 +3,9 @@ import { Block, Align, PlainText, lineFeed, use, setContext } from "verstak"
 import { Markdown } from "verstak-markdown"
 import { Theme } from "themes/Theme"
 import { App } from "models/App"
-import { ToolBar } from "./ToolBar.v"
+import { InfoBar } from "./InfoBar.v"
 import { StatusBar } from "./StatusBar.v"
-import { WorkArea } from "./WorkArea.v"
+import { Editor } from "./Editor.v"
 import * as s from "themes/Common.s"
 
 export function Main(name: string) {
@@ -19,7 +19,7 @@ export function Main(name: string) {
         setContext(Theme, app.theme)
         e.style.backgroundColor = "rgba(230, 230, 230)"
         // Toolbar row
-        ToolBar("ToolBar", { widthGrowth: 1 })
+        InfoBar("ToolBar", { widthGrowth: 1 })
         lineFeed()
         // Main row
         // Block("NavBar", {
@@ -31,7 +31,7 @@ export function Main(name: string) {
         //     PlainText("Navigation Bar")
         //   }
         // })
-        WorkArea("Editor", {
+        Editor("Editor", {
           widthGrowth: 3,
           heightGrowth: 0.5,
           render(e, b, base) {

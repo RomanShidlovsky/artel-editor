@@ -47,3 +47,16 @@ export const Clickable = css`
   cursor: pointer;
   user-select: none;
 `
+
+export const Button = css`
+  min-height: 55px;
+  min-width: 55px;
+  box-shadow: 0.025rem 0.025rem 0.35rem 0 gray;
+  border-radius: 0.25rem;
+  font-size: 25px;
+  margin: 5px;
+
+  :hover {
+    background-color: #dedede;
+  }
+`

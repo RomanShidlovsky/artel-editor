@@ -7,7 +7,7 @@ import { App } from "models/App"
 import * as s from "themes/Common.s"
 import { createFieldModel, Field } from "components/Field.v"
 
-export function ToolBar(name: string, args?: BlockArgs<HTMLElement, void, void>) {
+export function InfoBar(name: string, args?: BlockArgs<HTMLElement, void, void>) {
   return (
     Block(name, asComponent(args, {
       render(e, b) {
