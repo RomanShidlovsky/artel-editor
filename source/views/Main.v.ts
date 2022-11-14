@@ -18,28 +18,28 @@ export function Main(name: string) {
         const app = use(App)
         setContext(Theme, app.theme)
         e.style.backgroundColor = "rgba(230, 230, 230)"
-        // Tool bar row
+        // Toolbar row
         ToolBar("ToolBar", { widthGrowth: 1 })
         lineFeed()
         // Main row
-        Block("NavBar", {
-          widthMin: "10rem",
-          alignContent: Align.Top,
-          alignFrame: Align.Stretch,
-          render(e, b) {
-            e.className = s.Panel
-            PlainText("Navigation Bar")
-          }
-        })
-        WorkArea("GridExample", {
+        // Block("NavBar", {
+        //   widthMin: "10rem",
+        //   alignContent: Align.Top,
+        //   alignFrame: Align.Stretch,
+        //   render(e, b) {
+        //     e.className = s.Panel
+        //     PlainText("Navigation Bar")
+        //   }
+        // })
+        WorkArea("Editor", {
           widthGrowth: 3,
-          heightGrowth: 1,
+          heightGrowth: 0.5,
           render(e, b, base) {
             base()
             e.className = cx(s.Panel, s.Important)
           },
         })
-        Block("MarkdownExample", {
+        Block("Workarea", {
           reacting: true,
           widthMin: "16rem",
           widthGrowth: 2,
@@ -47,8 +47,7 @@ export function Main(name: string) {
           alignFrame: Align.Stretch,
           render(e, b) {
             const theme = use(Theme)
-            e.className = cx(s.Panel, theme.markdown)
-            Markdown("Verstak", CODE)
+            e.className = cx(s.Panel, theme.markdown, s.Workarea)
           }
         })
         // Status bar row

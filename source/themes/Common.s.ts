@@ -18,6 +18,9 @@ export const Panel = css`
   border-radius: 0.25rem;
   background-color: white;
 `
+export const Workarea = css`
+  background-image: url("../../public/assets/images/back.webp");
+`
 
 export const PanelTitle = css`
   font-weight: bold;
@@ -31,8 +34,8 @@ export const Brand = css`
 
 export const Important = css`
   color: #029111;
-  background-color: #fef5f4;
-  border: 1px solid #D30505;
+  background-color: rgba(0, 140, 255, 0.1);
+  border: 1px solid #0051ff;
 `
 
 export const Hint = css`

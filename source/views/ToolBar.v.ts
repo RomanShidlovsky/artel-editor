@@ -13,11 +13,8 @@ export function ToolBar(name: string, args?: BlockArgs<HTMLElement, void, void>)
       render(e, b) {
         const app = use(App)
         Block("Logo", {
-          initialize(e, b) {
-            e.className = cx(s.Panel, s.Clickable, s.Logo)
-            e.onclick = () => Transaction.run(null, () => app.blinkingEffect = !app.blinkingEffect)
-          },
           render(e, b) {
+            e.className = cx(s.Panel, s.Clickable, s.Logo)
             e.style.backgroundColor = app.blinkingEffect ? "red" : ""
             Img("N*", {
               render(e, b) {
@@ -34,33 +31,9 @@ export function ToolBar(name: string, args?: BlockArgs<HTMLElement, void, void>)
             Block("Welcome", {
               widthGrowth: 1,
               render(e, b) {
-                HtmlText(`<b>Verstak</b> v${app.version}`)
-                lineFeed()
-                PlainText("Try to change window size")
+                HtmlText(`<b>Artel editor</b> v${app.version}`)
               },
             })
-            Field("Dropdown1", {
-              widthMin: "7em",
-              initialize(e, b, base) {
-                const loader = app.loader
-                b.model = createFieldModel({
-                  text: refs(loader).filter,
-                  options: refs(loader).loaded,
-                  isHotText: true,
-                  isMultiLineText: false,
-                })
-                base()
-              },
-            })
-          }
-        })
-        Block("Account", {
-          initialize(e, b) {
-            e.onclick = () => Transaction.run(null, () => app.theme = new MarkdownCodeDarkTheme())
-          },
-          render(e, b) {
-            e.className = cx(s.Panel, s.Hint, s.Clickable)
-            Icon("fa-solid fa-bars")
           }
         })
       },

@@ -9,6 +9,8 @@ import "../public/assets/verstak.css"
 import "../index.css"
 import { MarkdownCodeLightTheme } from "themes/MarkdownCodeLightTheme.s"
 
+
+
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 const version: string = "0.1"
 
