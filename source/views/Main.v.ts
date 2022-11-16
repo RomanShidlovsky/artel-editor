@@ -7,36 +7,28 @@ import { InfoBar } from "./InfoBar.v"
 import { StatusBar } from "./StatusBar.v"
 import { Editor } from "./Editor.v"
 import * as s from "themes/Common.s"
+import {Toggle} from "../components/Toggle.v";
+import {observableModel} from "../common/Utils";
+import {refs, Transaction} from "reactronic";
+import {ButtonV} from "./Button.v";
 
-export function Main(name: string) {
+export function Main(app: App, name: string) {
   return (
     Block(name, {
       reacting: true, // re-rendering point
+      triggers: app.darkTheme,
       alignContent: Align.Top,
       heightGrowth: 1,
       render(e, b) {
-        const app = use(App)
-        setContext(Theme, app.theme)
-        e.style.backgroundColor = "rgba(230, 230, 230)"
-        // Toolbar row
+        e.style.backgroundColor = app.theme.backColor
         InfoBar("ToolBar", { widthGrowth: 1 })
         lineFeed()
-        // Main row
-        // Block("NavBar", {
-        //   widthMin: "10rem",
-        //   alignContent: Align.Top,
-        //   alignFrame: Align.Stretch,
-        //   render(e, b) {
-        //     e.className = s.Panel
-        //     PlainText("Navigation Bar")
-        //   }
-        // })
         Editor("Editor", {
           widthGrowth: 3,
           heightGrowth: 0.5,
           render(e, b, base) {
             base()
-            e.className = cx(s.Panel, s.Important)
+            e.className =  cx(app.theme.Panel, s.Important)
           },
         })
         Block("Workarea", {
@@ -46,43 +38,21 @@ export function Main(name: string) {
           alignContent: Align.Left + Align.Top,
           alignFrame: Align.Stretch,
           render(e, b) {
-            const theme = use(Theme)
-            e.className = cx(s.Panel, theme.markdown, s.Workarea)
+            e.className = cx(app.theme.Panel, s.Workarea)
           }
         })
         // Status bar row
         lineFeed()
         StatusBar("StatusBar", { widthGrowth: 1 })
+        Block("Panel",{
+          render(e){
+            e.className = app.theme.Panel
+            ButtonV("ThemeBtn", "fa-solid fa-sun", app.theme.themeBtnColor,
+              () => Transaction.run(null, () => app.setNextTheme()))
+          }
+        })
+
       },
     })
   )
 }
-
-const CODE = `
-Block size is automatically adjusted to size of table
-cells, while cells are automatically adjusted to screen
-size of each user. System is suitable both to lay out
-application panels and to create reusable components.
-
-\`\`\` js
-Grid("Example", {
-  render(e, b) {
-    // Blocks can be layed out automatically
-    // based on their order and line feeds.
-    Ruler("1", To.Left, true)
-    Ruler("A", To.Top + To.Center)
-    Ruler("B", To.Top + To.Center)
-    Ruler("C", To.Top + To.Center); lineFeed()
-    Ruler("2", To.Left); lineFeed()
-    Ruler("3", To.Left); lineFeed()
-    // Blocks can also be layed out
-    // explicitly in exact cells.
-    ExampleData("B2")
-    ExampleData("A1:B1")
-    ExampleData("C1:C2")
-    ExampleData("B3:C3")
-    ExampleData("A2:A3")
-  },
-})
-\`\`\`
-`

@@ -17,6 +17,16 @@ export const Panel = css`
   box-shadow: 0.025rem 0.025rem 0.35rem 0 gray;
   border-radius: 0.25rem;
   background-color: white;
+  color: black;
+`
+
+export const DarkPanel = css`
+  margin: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0.025rem 0.025rem 0.35rem 0 gray;
+  border-radius: 0.25rem;
+  background-color: #212121;
+  color: white;
 `
 export const Workarea = css`
   background-image: url("../../public/assets/images/back.webp");

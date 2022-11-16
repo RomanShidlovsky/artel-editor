@@ -2,43 +2,53 @@ import { Grid, BlockArgs, Block, PlainText, HtmlText, lineFeed, Align, asCompone
 import * as s from "themes/Common.s"
 import * as monaco from 'monaco-editor'
 
+import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker"
+import cssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker"
+import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker"
+import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker"
+import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
+import styles from "./MonacoEditor.module.scss"
+
+// declare global {
+//   interface Window {
+//     MonacoEnvironment: monaco.Environment | undefined
+//   }
+// }
+
+(self as any).MonacoEnvironment = {
+  getWorker(_workerId: string, label: string): Worker {
+    switch (label) {
+      case "json":
+        return new jsonWorker()
+      case "css":
+        return new cssWorker()
+      case "html":
+      case "handlebars":
+      case "razor":
+        return new htmlWorker()
+      case "typescript":
+      case "javascript":
+        return new tsWorker()
+      default:
+        return new editorWorker()
+    }
+  }
+}
+
 export function Editor(name: string,
   args?: BlockArgs<HTMLElement, void, void>) {
   return (
     Block(name, asComponent(args, {
-      render(e,b){
-        e.id = 'container'
+      initialize(e){
         monaco.editor.create(e, {
           value: 'console.log("Hello, world!")',
-          language: 'javascript',
-          automaticLayout: true
+          language: "typescript",
+          automaticLayout: true,
         })
       }
     }))
   )
 }
 
-function Ruler(title: string, alignFrame: Align, overlap?: boolean) {
-  Block(`#${title}`, {
-    alignFrame,
-    widthOverlap: overlap,
-    render(e, b) {
-      e.style.zIndex = "1"
-      e.style.fontSize = "smaller"
-      HtmlText(`&nbsp;${title}`)
-    }
-  })
-}
 
-function ExampleData(place: string) {
-  Block(place, {
-    place, // absolute position inside grid
-    alignContent: Align.Center + Align.CenterV,
-    initialize(e, b) {
-      e.className = s.Important
-    },
-    render(e, b) {
-      PlainText(place)
-    }
-  })
-}
+

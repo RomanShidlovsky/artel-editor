@@ -6,19 +6,19 @@ import { createFieldModel, Field } from "components/Field.v"
 import { Theme } from "themes/Theme"
 import { App } from "models/App"
 import * as s from "themes/Common.s"
-import {RunBtn} from "./RunBtn.v"
-import {NextStepBtn} from "./NextStepBtn.v";
-import {StopBtn} from "./StopBtn";
+import {ButtonV} from "./Button.v"
 
 export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>) {
   return (
     Block(name, asComponent(args, {
       render(e,b) {
-        e.className = s.Panel
-        RunBtn("RunBtn")
-        NextStepBtn("NextStep")
-        StopBtn("Stop")
+        const app = use(App)
+        e.className = app.theme.Panel
+        ButtonV("RunBtn", "fa-solid fa-play", app.theme.runBtnColor)
+        ButtonV("NextStep", "fa-solid fa-forward-step", app.theme.nextStepBtnColor)
+        ButtonV("Stop","fa-solid fa-stop", app.theme.stopBtnColor)
       }
     }))
+
   )
 }

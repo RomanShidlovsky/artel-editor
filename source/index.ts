@@ -7,7 +7,7 @@ import { Main } from "views/Main.v"
 import "../index.reset.css"
 import "../public/assets/verstak.css"
 import "../index.css"
-import { MarkdownCodeLightTheme } from "themes/MarkdownCodeLightTheme.s"
+import {LightTheme} from "./themes/LightTheme.s";
 
 
 
@@ -17,13 +17,13 @@ const version: string = "0.1"
 configureDebugging()
 
 const app = Transaction.run(null, () =>
-  new App(version, new MarkdownCodeLightTheme()))
+  new App(version, new LightTheme()))
 
 VBlock.root(() => {
   HtmlBody("body", {
     render(e, b) {
       setContext(App, app)
-      Main("Main")
+      Main(app,"Main")
     },
   })
 })
