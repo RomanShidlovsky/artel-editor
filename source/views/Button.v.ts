@@ -22,8 +22,8 @@ export function ButtonV(
         }
       },
       render(e) {
-        e.className = s.Button
         const app = use(App)
+        e.className = app.theme.Button
         e.style.color = color
         I("run", {
           render(e) {

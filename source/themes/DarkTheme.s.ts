@@ -9,7 +9,7 @@ export class DarkTheme implements Theme {
   backColor = "black"
   panelColor = "#212121"
   textColor = "white"
-  hoverColor = "#6a6565"
+  hoverColor = "black"
   editorTheme = "vs-dark"
 
   Panel = css`
@@ -28,7 +28,7 @@ export class DarkTheme implements Theme {
     font-size: 25px;
     margin: 5px;
     :hover {
-      background-color: ${this.backColor};
+      background-color: ${this.hoverColor};
     }
   `
 }
