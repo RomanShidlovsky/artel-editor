@@ -1,4 +1,4 @@
-# Verstak Demo
+# Artel editor
 
 Tech Stack:
 
