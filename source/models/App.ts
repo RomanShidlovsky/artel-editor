@@ -50,10 +50,7 @@ export class App extends ObservableObject {
 
   @transactional
   setNextTheme(): void {
-    this.themeId++
-    if (this.themeId >= this.themes.length) {
-      this.themeId = 0
-    }
+    this.themeId = (this.themeId + 1) % this.themes.length
     this.theme = this.themes[this.themeId]
     monaco.editor.setTheme(this.theme.editorTheme)
   }
