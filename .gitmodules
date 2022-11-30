@@ -7,3 +7,6 @@
 [submodule "library/verstak-markdown"]
 	path = library/verstak-markdown
 	url = https://github.com/nezaboodka/verstak-markdown.git
+[submodule "library/artel"]
+	path = library/artel
+	url = https://lab.nz.by/art/artel.git

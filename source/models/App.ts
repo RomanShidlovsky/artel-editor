@@ -5,6 +5,8 @@ import { Loader } from "./Loader"
 import {DarkTheme} from "../themes/DarkTheme.s";
 import {LightTheme} from "../themes/LightTheme.s";
 import * as monaco from 'monaco-editor'
+import {ArtelMonacoClient} from "../../library/artel/packages/monaco-client/source";
+import Worker from "../../library/artel/packages/monaco-client/source/worker?worker"
 
 export class App extends ObservableObject {
   @raw readonly sensors: HtmlSensors
@@ -15,6 +17,8 @@ export class App extends ObservableObject {
   themes: Theme[]
   darkTheme: boolean
   themeId: number
+  model: monaco.editor.ITextModel | null = null
+  isCreated : boolean = false
 
   constructor(version: string, theme: Theme) {
     super()
@@ -36,6 +40,12 @@ export class App extends ObservableObject {
   @reactive
   applyBlinkingEffect(): void {
     BaseHtmlDriver.blinkingEffect = this.blinkingEffect ? "verstak-blinking-effect" : undefined
+  }
+
+  @reactive
+  async createModel(){
+    const client = new ArtelMonacoClient()
+    this.model = await client.getModel(new Worker())
   }
 
   @transactional
