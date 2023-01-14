@@ -70,3 +70,9 @@ export const Button = css`
     background-color: #dedede;
   }
 `
+
+export const Resizer = css`
+  background-color: black;
+  cursor: col-resize;
+  user-select: none;
+`

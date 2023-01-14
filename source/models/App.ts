@@ -19,6 +19,14 @@ export class App extends ObservableObject {
   themeId: number
   model: monaco.editor.ITextModel | null = null
   isCreated : boolean = false
+  @raw leftSide: HTMLElement | null = null
+  @raw rightSide: HTMLElement | null = null
+  @raw resizer: HTMLElement | null = null
+  @raw x: number = 0
+  @raw y: number = 0
+  @raw leftWidth: number | undefined = 0
+  @raw parWidth : number = 0
+  newWidth: number = 0
 
   constructor(version: string, theme: Theme) {
     super()
