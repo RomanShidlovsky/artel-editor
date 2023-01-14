@@ -1,5 +1,5 @@
 import { cx } from "@emotion/css"
-import { Block, Align, PlainText, lineFeed, use, setContext } from "verstak"
+import {Block, Align, PlainText, lineFeed, use, setContext, Grid} from "verstak"
 import { Markdown } from "verstak-markdown"
 import { Theme } from "themes/Theme"
 import { App } from "models/App"
@@ -11,6 +11,10 @@ import {Toggle} from "../components/Toggle.v";
 import {observableModel} from "../common/Utils";
 import {refs, Transaction} from "reactronic";
 import {ButtonV} from "./Button.v";
+import {Compilation} from "../../library/artel/packages/compiler/source/compilation/Compilation";
+import {Uri} from "../../library/artel/packages/compiler/source/Uri";
+import {WorkArea} from "./WorkArea.v";
+import cssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
 
 export function Main(app: App, name: string) {
   return (
@@ -40,7 +44,7 @@ export function Main(app: App, name: string) {
         })
         Block("resizer",{
           widthMin: "2px",
-          heightMin: "100%",
+          heightMin: "98%",
           initialize(e){
             e.id = "resizer"
             e.className = s.Resizer
@@ -48,11 +52,9 @@ export function Main(app: App, name: string) {
 
             const mouseMoveHandler = function (e : MouseEvent) {
               const dx = e.clientX - app.x
-              const dy = e.clientY - app.y
-              console.log('dx='+dx)
-              console.log('old =' + app.newWidth)
-              Transaction.run(null, () => app.newWidth = app.leftWidth! + dx)
-              console.log('new =' + app.newWidth)
+              console.log()
+              Transaction.run(null, () => {app.newWidth = app.leftWidth! + dx - 33;})
+              console.log(app.newWidth, ' ', app.leftWidth)
             }
 
             const mouseUpHandler = (e : MouseEvent) => {
@@ -62,26 +64,28 @@ export function Main(app: App, name: string) {
 
             const mouseDownHandler = function (e : MouseEvent) {
               app.x = e.clientX
-              app.y = e.clientY
-              app.leftWidth = app.newWidth != 0 ? app.newWidth :app.leftSide?.getBoundingClientRect().width
-              console.log('leftWidth=' + app.leftWidth)
-
+              console.log(app.x)
+              let rect = app.leftSide?.getBoundingClientRect().width
+              console.log('rect: ', rect)
+              app.leftWidth = app.leftSide?.getBoundingClientRect().width!
               document.addEventListener('mousemove', mouseMoveHandler)
               document.addEventListener('mouseup', mouseUpHandler)
             }
             e.addEventListener('mousedown', mouseDownHandler)
           }
         })
-        Block("Workarea", {
+
+        WorkArea("GridExample", {
           reacting: true,
           widthMin: "16rem",
-          widthGrowth: 2,
           alignContent: Align.Left + Align.Top,
           alignFrame: Align.Stretch,
-          render(e, b) {
-            e.className = cx(app.theme.Panel, s.Workarea)
-            app.rightSide = e
-          }
+          widthGrowth: 3,
+          //heightGrowth: 1,
+          render(e, b, base) {
+            base()
+            e.className = cx(s.Panel, s.Important)
+          },
         })
         // Status bar row
         lineFeed()

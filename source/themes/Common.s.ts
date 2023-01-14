@@ -28,9 +28,6 @@ export const DarkPanel = css`
   background-color: #212121;
   color: white;
 `
-export const Workarea = css`
-  background-image: url("../../public/assets/images/back.webp");
-`
 
 export const PanelTitle = css`
   font-weight: bold;
@@ -75,4 +72,8 @@ export const Resizer = css`
   background-color: black;
   cursor: col-resize;
   user-select: none;
+`
+
+export const WrapStyle = css`
+  word-break: break-word;
 `

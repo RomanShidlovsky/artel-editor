@@ -13,6 +13,5 @@ export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>
         ButtonV("Stop","fa-solid fa-stop", app.theme.stopBtnColor)
       }
     }))
-
   )
 }
