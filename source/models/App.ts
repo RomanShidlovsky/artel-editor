@@ -7,6 +7,9 @@ import {LightTheme} from "../themes/LightTheme.s";
 import * as monaco from 'monaco-editor'
 import {ArtelMonacoClient} from "../../library/artel/packages/monaco-client/source";
 import Worker from "../../library/artel/packages/monaco-client/source/worker?worker"
+import {Compilation} from "../../library/artel/packages/compiler/source/compilation/Compilation";
+import {Uri} from "../../library/artel/packages/compiler/source/Uri";
+import {Parser} from "../../library/artel/packages/compiler/source/parser/Parser";
 
 export class App extends ObservableObject {
   @raw readonly sensors: HtmlSensors
@@ -27,6 +30,10 @@ export class App extends ObservableObject {
   @raw leftWidth: number | undefined = 0
   @raw parWidth : number = 0
   newWidth: number = 0
+  gridData : Array<Array<string>> = new Array<Array<string>>(5)
+  places : string[] = []
+
+  rerender: boolean = false
 
   constructor(version: string, theme: Theme) {
     super()
@@ -38,6 +45,9 @@ export class App extends ObservableObject {
     this.darkTheme = false
     this.loader = new Loader()
     this.themes = [new LightTheme(), new DarkTheme()]
+    for (let i: number = 0; i < this.gridData.length; i++) {
+      this.gridData[i] = new Array<string>(5).fill("")
+    }
   }
 
   @reactive
@@ -61,5 +71,34 @@ export class App extends ObservableObject {
     this.themeId = (this.themeId + 1) % this.themes.length
     this.theme = this.themes[this.themeId]
     monaco.editor.setTheme(this.theme.editorTheme)
+  }
+
+  @transactional
+  sendMessage(place: string, message: string): void {
+    let ind: number[] = this.parsePlace(place)
+    this.gridData[ind[0]][ind[1]] = message
+    console.log(this.gridData[ind[0]][ind[1]])
+    this.rerender = !this.rerender
+  }
+
+  parsePlace(place: string) : number[] {
+    let i: number = place.charCodeAt(0) - 'A'.charCodeAt(0)
+    let j: number = +place[1] - 1
+    return [i, j]
+  }
+
+  @transactional
+  placeSquare(place: string): void {
+    this.places = this.places.toMutable()
+    this.places.push(place)
+  }
+
+  @transactional
+  reset(): void {
+    this.gridData = new Array<Array<string>>(5)
+    for (let i: number = 0; i < this.gridData.length; i++) {
+      this.gridData[i] = new Array<string>(5).fill("")
+    }
+    this.places = []
   }
 }

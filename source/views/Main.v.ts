@@ -20,7 +20,6 @@ export function Main(app: App, name: string) {
   return (
     Block(name, {
       reacting: true, // re-rendering point
-      triggers: app.darkTheme,
       alignContent: Align.Top,
       heightGrowth: 1,
       render(e, b) {
@@ -76,7 +75,6 @@ export function Main(app: App, name: string) {
         })
 
         WorkArea("GridExample", {
-          reacting: true,
           widthMin: "16rem",
           alignContent: Align.Left + Align.Top,
           alignFrame: Align.Stretch,
@@ -84,6 +82,7 @@ export function Main(app: App, name: string) {
           //heightGrowth: 1,
           render(e, b, base) {
             base()
+            console.log(app.rerender)
             e.className = cx(s.Panel, s.Important)
           },
         })

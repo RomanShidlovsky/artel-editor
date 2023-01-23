@@ -45,6 +45,12 @@ export const Important = css`
   border: 1px solid #0051ff;
 `
 
+export const SquareImportant = css`
+  color: #029111;
+  background-color: rgba(0, 140, 255, 0.1);
+  border: 2px solid #ff0000;
+`
+
 export const Hint = css`
   font-size: smaller;
   border: 1px solid silver;

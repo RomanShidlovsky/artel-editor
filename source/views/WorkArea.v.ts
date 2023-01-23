@@ -1,6 +1,9 @@
-import {Align, asComponent, Block, BlockArgs, Grid, HtmlText, lineFeed, PlainText} from "verstak"
+import {Align, asComponent, Block, BlockArgs, Grid, HtmlText, lineFeed, PlainText, use} from "verstak"
 import * as s from "themes/Common.s"
 import {cx} from "@emotion/css";
+import {App} from "../models/App";
+
+
 
 export function WorkArea(name: string,
                          args?: BlockArgs<HTMLElement, void, void>) {
@@ -21,18 +24,27 @@ export function WorkArea(name: string,
         Ruler("5", Align.Left); lineFeed()
         // Blocks can also be layed out
         // explicitly in exact cells.
-        let s : string = 'ABCDE'
+        const app = use(App)
+        let str : string = 'ABCDE'
         const size = 5
         for (let i = 0; i < size; i++){
           for (let j = 1; j <= size; j++){
-            let place = s[i] + j.toString()
-            ExampleData(place, "Hello")
-            //ExampleData(place, "Hello")
+            let place = str[i] + j.toString()
+            ExampleData(place, app.gridData[i][j-1])
           }
         }
+
+        app.places.forEach((value) => {
+          if (value.length > 2)
+            Square(value)
+        })
       },
     }))
   )
+}
+
+function contains(arr : string[], elem: string) {
+  return arr.indexOf(elem) != -1;
 }
 
 function Ruler(title: string, alignFrame: Align, overlap?: boolean) {
@@ -51,11 +63,25 @@ function ExampleData(place: string, text: string) {
   Block(place, {
     place, // absolute position inside grid
     alignContent: Align.Center + Align.CenterV,
-    initialize(e, b) {
-      e.className = cx(s.WrapStyle, s.Important)
-    },
     render(e, b) {
+      const app = use(App)
+      if (contains(app.places, place))
+        e.className = cx(s.WrapStyle, s.SquareImportant)
+      else
+        e.className = cx(s.WrapStyle, s.Important)
+
       e.innerText = text
+    }
+  })
+}
+
+function Square(place: string) {
+  Block(place, {
+    place, // absolute position inside grid
+    alignContent: Align.Center + Align.CenterV,
+    render(e) {
+      e.className = cx(s.WrapStyle, s.SquareImportant)
+      console.log("SQUARE,",place)
     }
   })
 }
