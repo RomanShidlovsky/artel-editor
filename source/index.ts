@@ -8,6 +8,10 @@ import "../index.reset.css"
 import "../public/assets/verstak.css"
 import "../index.css"
 import {LightTheme} from "./themes/LightTheme.s";
+import {DarkTheme} from "./themes/DarkTheme.s";
+import {Compilation} from "../library/artel/packages/compiler/source/compilation/Compilation";
+import {Uri} from "../library/artel/packages/compiler/source/Uri";
+import {Parser} from "../library/artel/packages/compiler/source/parser/Parser";
 
 
 
@@ -36,3 +40,44 @@ VBlock.root(() => {
     },
   })
 })
+
+export function compileArtel(code: string) {
+  const compilation = new Compilation(new Uri(['project']), [
+    {
+      uri: new Uri(['project', 'module']),
+      sourceFiles: [
+        {
+          uri: new Uri(['project', 'module', 'sheet.a']),
+          syntax: new Parser(code).parse(),
+        }
+      ]
+    }
+  ])
+  let compilationResult
+  try {
+    const emitterResult = compilation.emitWithDiagnostics()
+    const codeWithHelperFunction = helperArtelFunctions + emitterResult.code
+    const mainFileDiagnostics = emitterResult.diagnostics[1]
+    /*const syntaxErrors = mainFileDiagnostics.syntax.items.map<LanguageError>(d => ({
+      kind: 'syntax',
+      message: d.message,
+      span: { start: d.range.start, length: d.range.length }
+    }))*/
+    /*const semanticErrors = mainFileDiagnostics.semantic.items.map<LanguageError>(d => ({
+      kind: 'semantic',
+      message: d.message,
+      span: { start: d.range.start, length: d.range.length }
+    }))*/
+    compilationResult = {
+      code: codeWithHelperFunction,
+      //errors: [...syntaxErrors, ...semanticErrors]
+    }
+  } catch (_) {
+    compilationResult = {
+      code: '',
+      errors: [{ kind: 'semantic', message: 'Emitter error', span: { start: 0, length: 1 } }]
+    }
+  }
+  return compilationResult
+}
+

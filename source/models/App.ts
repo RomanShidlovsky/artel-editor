@@ -7,9 +7,7 @@ import {LightTheme} from "../themes/LightTheme.s";
 import * as monaco from 'monaco-editor'
 import {ArtelMonacoClient} from "../../library/artel/packages/monaco-client/source";
 import Worker from "../../library/artel/packages/monaco-client/source/worker?worker"
-import {Compilation} from "../../library/artel/packages/compiler/source/compilation/Compilation";
-import {Uri} from "../../library/artel/packages/compiler/source/Uri";
-import {Parser} from "../../library/artel/packages/compiler/source/parser/Parser";
+
 
 export class App extends ObservableObject {
   @raw readonly sensors: HtmlSensors
