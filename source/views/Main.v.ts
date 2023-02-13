@@ -33,6 +33,7 @@ export function Main(app: App, name: string) {
           widthGrowth: 3,
           widthMin: "250px",
           heightGrowth: 0.5,
+          heightMax: "690px",
           render(e, b, base) {
             base()
             e.className =  cx(app.theme.Panel, s.Important)
@@ -44,8 +45,8 @@ export function Main(app: App, name: string) {
           },
         })
         Block("resizer",{
-          widthMin: "2px",
-          heightMin: "98%",
+          widthMin: "5px",
+          heightGrowth: 0.5,
           initialize(e){
             e.id = "resizer"
             e.className = s.Resizer
@@ -77,12 +78,11 @@ export function Main(app: App, name: string) {
         })
 
         WorkAreaCanvas("GridExample", {
-          widthMin: "16rem",
-          heightGrowth: 0.5,
-          //alignContent: Align.Left + Align.Top,
+          alignContent: Align.Left + Align.Top,
           //alignFrame: Align.Stretch,
-          widthGrowth: 3,
-          //heightGrowth: 1,
+          widthGrowth: 1,
+          heightGrowth: 0.5,
+          heightMax: "690px",
           render(e, b, base) {
             base()
             e.className = cx(s.Panel, s.Important)

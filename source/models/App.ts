@@ -29,7 +29,6 @@ export class App extends ObservableObject {
   @raw y: number = 0
   @raw leftWidth: number | undefined = 0
   @raw parWidth : number = 0
-  @raw cellWidth : number = 25
   textQueue : Array<Array<string>> = new Array<Array<string>>()
   newWidth: number = 0
   gridData : Array<Array<string>> = new Array<Array<string>>(5)
@@ -73,7 +72,7 @@ export class App extends ObservableObject {
     name: "rysovanye",
     sourceFiles: [{name: "main.a", text: `
       используется артель
-      внешняя операция сообщить(позиция: Текст, текст: Текст)
+      внешняя операция сообщить(позиция: Текст, текст: Текст, цвет: Текст)
       внешняя операция прямоугольник(позиция: Текст)
       внешняя операция установитьПараметрыСетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
     `}]
@@ -89,9 +88,9 @@ export class App extends ObservableObject {
   }
 
   @transactional
-  sendMessage(place: string, message: string): void {
+  sendMessage(place: string, message: string, color : string = "black"): void {
     let ind: number[] = this.parsePlace(place)
-    const data: string[] = [place, message]
+    const data: string[] = [place, message, color]
     this.textQueue = this.textQueue.toMutable()
     this.textQueue.push(data)
     console.log("send: ",this.textQueue)

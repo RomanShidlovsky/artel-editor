@@ -28,8 +28,8 @@ const helperArtelFunctions = `
   function прямоугольник(place) {
     return app.placeSquare(place)
   }
-  function сообщить(place, message) {
-    return app.sendMessage(place, message)
+  function сообщить(place, message, color) {
+    return app.sendMessage(place, message, color)
   }
   function установитьПараметрыСетки(cellSize, rowNumber, columnNumber) {
     return app.setNetParams(cellSize, rowNumber, columnNumber)

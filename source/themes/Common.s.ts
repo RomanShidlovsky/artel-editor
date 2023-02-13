@@ -75,7 +75,7 @@ export const Button = css`
 `
 
 export const Resizer = css`
-  background-color: black;
+  background-color: unset;
   cursor: col-resize;
   user-select: none;
 `

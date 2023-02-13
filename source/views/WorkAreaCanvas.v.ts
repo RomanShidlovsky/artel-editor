@@ -6,13 +6,18 @@ export function WorkAreaCanvas(name: string,
                          args?: BlockArgs<HTMLElement, void, void>) {
   return (
     Block(name, asComponent(args, {
-      render() {
+      render(e) {
+        e.style.overflow = "auto"
         Canvas(name,{
           render(e){
-            e.className = s.Border
-            e.width = e.parentElement!.getBoundingClientRect().width
-            e.height = 550
             const app = use(App)
+            e.className = s.Border
+            //e.width = e.parentElement!.getBoundingClientRect().width
+            e.width = app.cellSize * app.columnNumber
+            console.log(app.columnNumber * app.cellSize)
+            console.log(e.width)
+            e.height = app.cellSize * app.rowNumber
+
 
             const context = e.getContext('2d')
             context!.fillStyle = "white"
@@ -23,7 +28,6 @@ export function WorkAreaCanvas(name: string,
               let x = 0
               const yMax = app.cellSize * app.rowNumber
 
-              let cellCount = Math.floor(e.width / app.cellWidth)
               for (let i = 0; i < app.columnNumber ; i++)
               {
                 x += app.cellSize
@@ -35,7 +39,7 @@ export function WorkAreaCanvas(name: string,
 
               let y = 0
               const xMax = app.cellSize * app.columnNumber
-              cellCount = Math.floor(e.height / app.cellWidth)
+
               for (let i = 0; i < app.rowNumber; i++) {
                 y += app.cellSize
                 context.beginPath()
@@ -45,7 +49,7 @@ export function WorkAreaCanvas(name: string,
               }
 
               context.font = "14px Comic Sans MS";
-              context.fillStyle = "red";
+
               context.textAlign = "center"
 
               for (let i = 0; i < app.textQueue.length; i++){
@@ -54,9 +58,9 @@ export function WorkAreaCanvas(name: string,
                 {
                   console.log("render: ",data)
                   const ind = app.parsePlace(data[0])
-                  const posX = ind[0] * app.cellWidth + app.cellWidth / 2
-                  const posY = ind[1] * app.cellWidth + app.cellWidth / 2 + 3.5
-
+                  const posX = ind[0] * app.cellSize + app.cellSize / 2
+                  const posY = ind[1] * app.cellSize + app.cellSize / 2 + 3.5
+                  context.fillStyle = data[2];
                   context.fillText(data[1], posX, posY)
                 }
               }
