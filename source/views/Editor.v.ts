@@ -42,17 +42,6 @@ export function Editor(name: string,
   args?: BlockArgs<HTMLElement, void, void>) {
   return (
     Block(name, asComponent(args, {
-      // initialize(e){
-      //   const app = use(App)
-      //   monaco.editor.create(e, {
-      //     model: app.model,
-      //   })
-      //   // monaco.editor.create(e, {
-      //   //   value: 'console.log("Hello, world!")',
-      //   //   language: "typescript",
-      //   //   automaticLayout: true,
-      //   // })
-      // }
       render(e){
         const app = use(App)
         if (app.model && !app.isCreated){

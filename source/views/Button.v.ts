@@ -16,7 +16,6 @@ export function ButtonV(
       widthMax : "55px",
       alignContent: Align.CenterV + Align.Center,
       initialize(e, b) {
-        const app = use(App)
         if (onclick) {
           e.onclick = onclick
         }

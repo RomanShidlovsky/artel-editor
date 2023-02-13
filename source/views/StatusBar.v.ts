@@ -15,9 +15,10 @@ export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>
           const code = app.model?.getValue()
           if (code != undefined) {
             const compilationResult = compileArtel(code)
-            console.log(compilationResult.code)
             app.reset()
             const f = eval(compilationResult.code)
+            Transaction.run(null, () => app.rerender = !app.rerender)
+            console.log(app.cellSize)
           }
           })
         ButtonV("NextStep", "fa-solid fa-forward-step", app.theme.nextStepBtnColor)

@@ -23,12 +23,16 @@ configureDebugging()
 const app = Transaction.run(null, () =>
   new App(version, new LightTheme()))
 
+
 const helperArtelFunctions = `
   function прямоугольник(place) {
     return app.placeSquare(place)
   }
   function сообщить(place, message) {
     return app.sendMessage(place, message)
+  }
+  function установитьПараметрыСетки(cellSize, rowNumber, columnNumber) {
+    return app.setNetParams(cellSize, rowNumber, columnNumber)
   }
 `
 

@@ -83,3 +83,7 @@ export const Resizer = css`
 export const WrapStyle = css`
   word-break: break-word;
 `
+
+export const Border = css`
+  border: 1px solid black;
+`

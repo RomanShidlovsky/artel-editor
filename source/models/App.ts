@@ -9,6 +9,8 @@ import {ArtelMonacoClient} from "../../library/artel/packages/monaco-client/sour
 import Worker from "../../library/artel/packages/monaco-client/source/worker?worker"
 
 
+
+
 export class App extends ObservableObject {
   @raw readonly sensors: HtmlSensors
   version: string
@@ -27,9 +29,16 @@ export class App extends ObservableObject {
   @raw y: number = 0
   @raw leftWidth: number | undefined = 0
   @raw parWidth : number = 0
+  @raw cellWidth : number = 25
+  textQueue : Array<Array<string>> = new Array<Array<string>>()
   newWidth: number = 0
   gridData : Array<Array<string>> = new Array<Array<string>>(5)
   places : string[] = []
+
+  rowNumber: number = 25
+  columnNumber: number = 25
+  cellSize: number = 50
+
 
   rerender: boolean = false
 
@@ -60,7 +69,15 @@ export class App extends ObservableObject {
 
   @reactive
   async createModel(){
-    const client = new ArtelMonacoClient()
+    const client = new ArtelMonacoClient([{
+    name: "rysovanye",
+    sourceFiles: [{name: "main.a", text: `
+      используется артель
+      внешняя операция сообщить(позиция: Текст, текст: Текст)
+      внешняя операция прямоугольник(позиция: Текст)
+      внешняя операция установитьПараметрыСетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
+    `}]
+    }])
     this.model = await client.getModel(new Worker())
   }
 
@@ -74,9 +91,13 @@ export class App extends ObservableObject {
   @transactional
   sendMessage(place: string, message: string): void {
     let ind: number[] = this.parsePlace(place)
-    this.gridData[ind[0]][ind[1]] = message
+    const data: string[] = [place, message]
+    this.textQueue = this.textQueue.toMutable()
+    this.textQueue.push(data)
+    console.log("send: ",this.textQueue)
+    /*this.gridData[ind[0]][ind[1]] = message
     console.log(this.gridData[ind[0]][ind[1]])
-    this.rerender = !this.rerender
+    this.rerender = !this.rerender*/
   }
 
   parsePlace(place: string) : number[] {
@@ -93,10 +114,24 @@ export class App extends ObservableObject {
 
   @transactional
   reset(): void {
-    this.gridData = new Array<Array<string>>(5)
+    /*this.gridData = new Array<Array<string>>(5)
+
     for (let i: number = 0; i < this.gridData.length; i++) {
       this.gridData[i] = new Array<string>(5).fill("")
     }
-    this.places = []
+    this.places = []*/
+    this.textQueue = new Array<Array<string>>()
+  }
+
+  @transactional
+  setNetParams(cellSize: number, rowNumber?: number, columnNumber?: number) {
+    this.cellSize = cellSize
+    if (rowNumber) {
+      this.rowNumber = rowNumber
+      if (columnNumber) {
+        this.columnNumber = columnNumber
+      }
+    }
   }
 }
+

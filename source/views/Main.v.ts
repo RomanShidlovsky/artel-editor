@@ -15,11 +15,13 @@ import {Compilation} from "../../library/artel/packages/compiler/source/compilat
 import {Uri} from "../../library/artel/packages/compiler/source/Uri";
 import {WorkArea} from "./WorkArea.v";
 import cssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
+import {WorkAreaCanvas} from "./WorkAreaCanvas.v";
 
 export function Main(app: App, name: string) {
   return (
     Block(name, {
       reacting: true, // re-rendering point
+      triggers: app.rerender,
       alignContent: Align.Top,
       heightGrowth: 1,
       render(e, b) {
@@ -74,16 +76,17 @@ export function Main(app: App, name: string) {
           }
         })
 
-        WorkArea("GridExample", {
+        WorkAreaCanvas("GridExample", {
           widthMin: "16rem",
-          alignContent: Align.Left + Align.Top,
-          alignFrame: Align.Stretch,
+          heightGrowth: 0.5,
+          //alignContent: Align.Left + Align.Top,
+          //alignFrame: Align.Stretch,
           widthGrowth: 3,
           //heightGrowth: 1,
           render(e, b, base) {
             base()
-            console.log(app.rerender)
             e.className = cx(s.Panel, s.Important)
+            console.log(app.rerender)
           },
         })
         // Status bar row
