@@ -53,37 +53,29 @@ export function WorkAreaCanvas(name: string,
               context.textAlign = "center"
 
               let contextWidth = context.lineWidth;
-              context.lineWidth = 3;
               console.log(app.places)
               for (let [key, value] of app.places) {
-                const indexes = app.parseSquarePlace(key)
+                context.lineWidth = value.borderWidth!;
+                context.strokeStyle = value.color!;
+                const indexes = app.parseSquarePlace(key);
+                const posX = indexes[0] * app.cellSize;
+                const posY = indexes[1] * app.cellSize;
                 if (indexes.length == 2){
-                  const posX = indexes[0] * app.cellSize;
-                  const posY = indexes[1] * app.cellSize;
-                  context.strokeStyle = value;
                   context.strokeRect(posX, posY, app.cellSize, app.cellSize);
                 } else {
-                  const posX = indexes[0] * app.cellSize;
-                  const posY = indexes[1] * app.cellSize;
                   const width = (indexes[2] - indexes[0] + 1) * app.cellSize;
                   const height = (indexes[3] - indexes[1] + 1) * app.cellSize;
-                  context.strokeStyle = value;
                   context.strokeRect(posX, posY, width, height);
                 }
               }
               context.lineWidth = contextWidth;
 
-              for (let i = 0; i < app.textQueue.length; i++){
-                const data: string[] | undefined = app.textQueue[i]
-                if (data != undefined)
-                {
-                  console.log("render: ",data)
-                  const ind = app.parseTextPlace(data[0])
-                  const posX = ind[0] * app.cellSize + app.cellSize / 2
-                  const posY = ind[1] * app.cellSize + app.cellSize / 2 + 3.5
-                  context.fillStyle = data[2];
-                  context.fillText(data[1], posX, posY)
-                }
+              for (let [key, value] of app.textQueue) {
+                const ind = app.parseTextPlace(key)
+                const posX = ind[0] * app.cellSize + app.cellSize / 2
+                const posY = ind[1] * app.cellSize + app.cellSize / 2 + 3.5
+                context.fillStyle = value.color!;
+                context.fillText(value.body!, posX, posY)
               }
             }
           }

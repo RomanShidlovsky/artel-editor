@@ -25,8 +25,8 @@ const app = Transaction.run(null, () =>
 
 
 const helperArtelFunctions = `
-  function прямоугольник(place, color) {
-    return app.placeSquare(place, color)
+  function прямоугольник(place, borderWidth, color) {
+    return app.placeSquare(place, borderWidth, color)
   }
   function сообщить(place, message, color) {
     return app.sendMessage(place, message, color)

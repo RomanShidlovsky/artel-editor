@@ -28,8 +28,8 @@ export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>
           Transaction.run(null, () => {
             app.places = app.places.toMutable();
             app.places.clear();
-            app.textQueue = app.textQueue.toMutable()
-            app.textQueue = new Array<Array<string>>();
+            app.textQueue = app.textQueue.toMutable();
+            app.textQueue.clear();
           })
           console.log(app.places)
         })

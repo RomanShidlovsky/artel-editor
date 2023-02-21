@@ -7,8 +7,8 @@ import {LightTheme} from "../themes/LightTheme.s";
 import * as monaco from 'monaco-editor'
 import {ArtelMonacoClient} from "../../library/artel/packages/monaco-client/source";
 import Worker from "../../library/artel/packages/monaco-client/source/worker?worker"
-
-
+import {SquareInfo} from "./SquareInfo";
+import {MessageInfo} from "./MessageInfo";
 
 
 export class App extends ObservableObject {
@@ -30,10 +30,10 @@ export class App extends ObservableObject {
   @raw leftWidth: number | undefined = 0
   @raw parWidth : number = 0
   @raw canvas: HTMLCanvasElement | null = null
-  textQueue : Array<Array<string>> = new Array<Array<string>>()
   newWidth: number = 0
   gridData : Array<Array<string>> = new Array<Array<string>>(5)
-  places : Map<string, string> = new Map();
+  places : Map<string, SquareInfo> = new Map<string, SquareInfo>()
+  textQueue : Map<string, MessageInfo> = new Map<string, MessageInfo>()
 
   rowNumber: number = 25
   columnNumber: number = 25
@@ -91,9 +91,14 @@ export class App extends ObservableObject {
   @transactional
   sendMessage(place: string, message: string, color : string = "black"): void {
     let ind: number[] = this.parseTextPlace(place)
-    const data: string[] = [place, message, color]
+    const messageInfo = new MessageInfo()
+    messageInfo.color = color
+    messageInfo.body = message
     this.textQueue = this.textQueue.toMutable()
-    this.textQueue.push(data)
+    if (this.places.has(place)){
+      this.places.delete(place);
+    }
+    this.textQueue.set(place, messageInfo)
     console.log("send: ",this.textQueue)
     /*this.gridData[ind[0]][ind[1]] = message
     console.log(this.gridData[ind[0]][ind[1]])
@@ -118,13 +123,16 @@ export class App extends ObservableObject {
   }
 
   @transactional
-  placeSquare(place: string, color: string = "black"): void {
+  placeSquare(place: string, borderWidth: number = 1, color: string = "black"): void {
     this.places = this.places.toMutable()
 
     if (this.places.has(place)){
       this.places.delete(place);
     }
-    this.places.set(place, color)
+    const squareInfo = new SquareInfo();
+    squareInfo.color = color;
+    squareInfo.borderWidth = borderWidth;
+    this.places.set(place, squareInfo);
   }
 
   @transactional
@@ -135,7 +143,8 @@ export class App extends ObservableObject {
       this.gridData[i] = new Array<string>(5).fill("")
     }
     this.places = []*/
-    this.textQueue = new Array<Array<string>>()
+    this.textQueue = new Map<string, MessageInfo>()
+    this.places = new Map<string, SquareInfo>()
   }
 
   @transactional
@@ -149,4 +158,3 @@ export class App extends ObservableObject {
     }
   }
 }
-
