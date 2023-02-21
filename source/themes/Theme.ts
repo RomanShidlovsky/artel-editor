@@ -3,6 +3,7 @@ export interface Theme {
   nextStepBtnColor: string
   stopBtnColor: string
   themeBtnColor: string
+  resetBtnColor: string
   backColor: string
   panelColor: string
   textColor: string

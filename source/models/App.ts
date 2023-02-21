@@ -29,10 +29,11 @@ export class App extends ObservableObject {
   @raw y: number = 0
   @raw leftWidth: number | undefined = 0
   @raw parWidth : number = 0
+  @raw canvas: HTMLCanvasElement | null = null
   textQueue : Array<Array<string>> = new Array<Array<string>>()
   newWidth: number = 0
   gridData : Array<Array<string>> = new Array<Array<string>>(5)
-  places : string[] = []
+  places : Map<string, string> = new Map();
 
   rowNumber: number = 25
   columnNumber: number = 25
@@ -73,7 +74,7 @@ export class App extends ObservableObject {
     sourceFiles: [{name: "main.a", text: `
       используется артель
       внешняя операция сообщить(позиция: Текст, текст: Текст, цвет: Текст)
-      внешняя операция прямоугольник(позиция: Текст)
+      внешняя операция прямоугольник(позиция: Текст, цвет: Текст)
       внешняя операция установитьПараметрыСетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
     `}]
     }])
@@ -89,7 +90,7 @@ export class App extends ObservableObject {
 
   @transactional
   sendMessage(place: string, message: string, color : string = "black"): void {
-    let ind: number[] = this.parsePlace(place)
+    let ind: number[] = this.parseTextPlace(place)
     const data: string[] = [place, message, color]
     this.textQueue = this.textQueue.toMutable()
     this.textQueue.push(data)
@@ -99,16 +100,31 @@ export class App extends ObservableObject {
     this.rerender = !this.rerender*/
   }
 
-  parsePlace(place: string) : number[] {
+  parseTextPlace(place: string) : number[] {
     let i: number = place.charCodeAt(0) - 'A'.charCodeAt(0)
     let j: number = +place[1] - 1
     return [i, j]
   }
 
+  parseSquarePlace(place: string) : number[] {
+    if (place.length == 2){
+      return this.parseTextPlace(place);
+    }
+    let strings = place.split(':');
+    let ind1 = this.parseTextPlace(strings[0]);
+    let ind2 = this.parseTextPlace(strings[1]);
+
+    return [ind1[0], ind1[1], ind2[0], ind2[1]];
+  }
+
   @transactional
-  placeSquare(place: string): void {
+  placeSquare(place: string, color: string = "black"): void {
     this.places = this.places.toMutable()
-    this.places.push(place)
+
+    if (this.places.has(place)){
+      this.places.delete(place);
+    }
+    this.places.set(place, color)
   }
 
   @transactional

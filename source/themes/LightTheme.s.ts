@@ -6,6 +6,7 @@ export class LightTheme implements Theme {
   nextStepBtnColor = "black"
   stopBtnColor = "red"
   themeBtnColor = "black"
+  resetBtnColor = "blue"
   backColor = "white"
   panelColor = "#212121"
   textColor = "black"

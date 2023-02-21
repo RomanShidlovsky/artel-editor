@@ -11,13 +11,13 @@ export function WorkAreaCanvas(name: string,
         Canvas(name,{
           render(e){
             const app = use(App)
+            app.canvas = e;
             e.className = s.Border
             //e.width = e.parentElement!.getBoundingClientRect().width
             e.width = app.cellSize * app.columnNumber
             console.log(app.columnNumber * app.cellSize)
             console.log(e.width)
             e.height = app.cellSize * app.rowNumber
-
 
             const context = e.getContext('2d')
             context!.fillStyle = "white"
@@ -52,12 +52,33 @@ export function WorkAreaCanvas(name: string,
 
               context.textAlign = "center"
 
+              let contextWidth = context.lineWidth;
+              context.lineWidth = 3;
+              console.log(app.places)
+              for (let [key, value] of app.places) {
+                const indexes = app.parseSquarePlace(key)
+                if (indexes.length == 2){
+                  const posX = indexes[0] * app.cellSize;
+                  const posY = indexes[1] * app.cellSize;
+                  context.strokeStyle = value;
+                  context.strokeRect(posX, posY, app.cellSize, app.cellSize);
+                } else {
+                  const posX = indexes[0] * app.cellSize;
+                  const posY = indexes[1] * app.cellSize;
+                  const width = (indexes[2] - indexes[0] + 1) * app.cellSize;
+                  const height = (indexes[3] - indexes[1] + 1) * app.cellSize;
+                  context.strokeStyle = value;
+                  context.strokeRect(posX, posY, width, height);
+                }
+              }
+              context.lineWidth = contextWidth;
+
               for (let i = 0; i < app.textQueue.length; i++){
                 const data: string[] | undefined = app.textQueue[i]
                 if (data != undefined)
                 {
                   console.log("render: ",data)
-                  const ind = app.parsePlace(data[0])
+                  const ind = app.parseTextPlace(data[0])
                   const posX = ind[0] * app.cellSize + app.cellSize / 2
                   const posY = ind[1] * app.cellSize + app.cellSize / 2 + 3.5
                   context.fillStyle = data[2];
@@ -71,3 +92,5 @@ export function WorkAreaCanvas(name: string,
     }))
   )
 }
+
+

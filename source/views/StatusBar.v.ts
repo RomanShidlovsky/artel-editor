@@ -3,6 +3,7 @@ import {App} from "models/App"
 import {ButtonV} from "./Button.v"
 import {Transaction} from "reactronic";
 import {compileArtel} from "../index";
+import {string} from "yargs";
 
 export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>) {
   return (
@@ -23,6 +24,15 @@ export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>
           })
         ButtonV("NextStep", "fa-solid fa-forward-step", app.theme.nextStepBtnColor)
         ButtonV("Stop","fa-solid fa-stop", app.theme.stopBtnColor)
+        ButtonV("ResetCanvas", "fa-solid fa-rotate-right", app.theme.resetBtnColor, () => {
+          Transaction.run(null, () => {
+            app.places = app.places.toMutable();
+            app.places.clear();
+            app.textQueue = app.textQueue.toMutable()
+            app.textQueue = new Array<Array<string>>();
+          })
+          console.log(app.places)
+        })
       }
     }))
   )

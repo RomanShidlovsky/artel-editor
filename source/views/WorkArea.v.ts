@@ -65,7 +65,7 @@ function ExampleData(place: string, text: string) {
     alignContent: Align.Center + Align.CenterV,
     render(e, b) {
       const app = use(App)
-      if (contains(app.places, place))
+      if (app.places.has(place))
         e.className = cx(s.WrapStyle, s.SquareImportant)
       else
         e.className = cx(s.WrapStyle, s.Important)

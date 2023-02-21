@@ -5,6 +5,7 @@ export class DarkTheme implements Theme {
   runBtnColor = "green"
   nextStepBtnColor = "white"
   stopBtnColor = "red"
+  resetBtnColor = "blue"
   themeBtnColor = "yellow"
   backColor = "black"
   panelColor = "#212121"
