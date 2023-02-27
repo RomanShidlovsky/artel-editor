@@ -10,6 +10,7 @@ import Worker from "../../library/artel/packages/monaco-client/source/worker?wor
 import {SquareInfo} from "./SquareInfo";
 import {MessageInfo} from "./MessageInfo";
 
+const ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
 
 export class App extends ObservableObject {
   @raw readonly sensors: HtmlSensors
@@ -70,7 +71,7 @@ export class App extends ObservableObject {
   @reactive
   async createModel(){
     const client = new ArtelMonacoClient([{
-    name: "rysovanye",
+    name: "рисование",
     sourceFiles: [{name: "main.a", text: `
       используется артель
       внешняя операция сообщить(позиция: Текст, текст: Текст, цвет: Текст)
@@ -105,10 +106,11 @@ export class App extends ObservableObject {
     this.rerender = !this.rerender*/
   }
 
-  parseTextPlace(place: string) : number[] {
-    let i: number = place.charCodeAt(0) - 'A'.charCodeAt(0)
-    let j: number = +place[1] - 1
-    return [i, j]
+  parseTextPlace(index: string) : number[] {
+    const letters = index.match(/[А-Я]+/)![0];
+    const column = this.getColumnNumber(letters)
+    const row = parseInt(index.match(/\d+/)![0], 10);
+    return [column - 1, row - 1];
   }
 
   parseSquarePlace(place: string) : number[] {
@@ -118,8 +120,29 @@ export class App extends ObservableObject {
     let strings = place.split(':');
     let ind1 = this.parseTextPlace(strings[0]);
     let ind2 = this.parseTextPlace(strings[1]);
+    return [ind1[0], ind1[1], ind2[0] - 1, ind2[1] - 1];
+  }
 
-    return [ind1[0], ind1[1], ind2[0], ind2[1]];
+  getColumnName(n: number): string {
+    const length = ALPHABET.length
+    let result = "";
+    while (n > 0) {
+      const [quotient, remainder] = [Math.floor((n - 1) / length), (n - 1) % length];
+      result = ALPHABET.charAt(remainder) + result;
+      n = quotient;
+    }
+    return result;
+  }
+
+  getColumnNumber(name: string): number {
+    const length = ALPHABET.length;
+    let result = 0;
+    for (let i = 0; i < name.length; i++) {
+      const char = name.charAt(i);
+      const value = ALPHABET.indexOf(char) + 1;
+      result = result * length + value;
+    }
+    return result;
   }
 
   @transactional
