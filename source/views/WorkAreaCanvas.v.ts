@@ -1,6 +1,7 @@
 import {Align, asComponent, Block, BlockArgs, Canvas, Grid, lineFeed, use} from "verstak";
 import {App} from "../models/App";
 import * as s from "themes/Common.s"
+import {colors} from "../models/ColorCollection";
 
 export function WorkAreaCanvas(name: string,
                          args?: BlockArgs<HTMLElement, void, void>) {
@@ -14,10 +15,10 @@ export function WorkAreaCanvas(name: string,
             app.canvas = e;
             e.className = s.Border
             //e.width = e.parentElement!.getBoundingClientRect().width
-            e.width = app.cellSize * (app.columnNumber + 2)
+            e.width = app.cellSize * (app.columnNumber + 1)
             console.log(app.columnNumber * app.cellSize)
             console.log(e.width)
-            e.height = app.cellSize * (app.rowNumber + 2)
+            e.height = app.cellSize * (app.rowNumber + 1)
 
             const context = e.getContext('2d')
             context!.fillStyle = "white"
@@ -32,13 +33,13 @@ export function WorkAreaCanvas(name: string,
               context.textAlign = "center"
               context.fillStyle = "black"
               let textX = app.cellSize * 1.5
-              let textY = app.cellSize / 2 + 3.5
+              let textY = app.cellSize * 0.75 //+ 3.5
               const yText = app.cellSize / 2
 
               for (let i = 0; i <= app.columnNumber ; i++)
               {
                 context.beginPath()
-                context.moveTo(x,app.cellSize)
+                context.moveTo(x,app.cellSize/2)
                 context.lineTo(x, yMax)
                 context.stroke()
                 if (i != app.columnNumber)
@@ -49,12 +50,13 @@ export function WorkAreaCanvas(name: string,
 
               let y = app.cellSize
               const xMax = app.cellSize * (app.columnNumber + 1)
-              textX = app.cellSize / 2
-              textY = 1.5 * app.cellSize
+              textX = app.cellSize * 0.75
+              textY = 1.6 * app.cellSize
+              context.textAlign = "end"
 
               for (let i = 0; i <= app.rowNumber; i++) {
                 context.beginPath()
-                context.moveTo(app.cellSize,y)
+                context.moveTo(app.cellSize/2, y)
                 context.lineTo(xMax, y)
                 context.stroke()
                 if(i != app.rowNumber)
@@ -69,7 +71,7 @@ export function WorkAreaCanvas(name: string,
               console.log(app.places)
               for (let [key, value] of app.places) {
                 context.lineWidth = value.borderWidth!;
-                context.strokeStyle = value.color!;
+                context.strokeStyle = colors[value.color!];
                 const indexes = app.parseSquarePlace(key);
                 const posX = (indexes[0] + 1) * app.cellSize;
                 const posY = (indexes[1] + 1) * app.cellSize;
@@ -81,13 +83,17 @@ export function WorkAreaCanvas(name: string,
                   context.strokeRect(posX, posY, width, height);
                 }
               }
+
+              context.textAlign = "center"
               context.lineWidth = contextWidth;
 
               for (let [key, value] of app.textQueue) {
                 const ind = app.parseTextPlace(key)
                 const posX = (ind[0] + 1) * app.cellSize + app.cellSize / 2
                 const posY = (ind[1] + 1) * app.cellSize + app.cellSize / 2 + 3.5
-                context.fillStyle = value.color!;
+                console.log(colors[value.color!])
+
+                context.fillStyle = colors[value.color!];
                 context.fillText(value.body!, posX, posY)
               }
             }
