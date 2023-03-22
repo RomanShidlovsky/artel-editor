@@ -1,8 +1,9 @@
-import {Align, asComponent, Block, BlockArgs, use} from "verstak"
+import {Align, asComponent, Block, BlockArgs, Input, use} from "verstak"
 import {App} from "models/App"
 import {ButtonV} from "./Button.v"
 import {Transaction} from "reactronic";
 import {compileArtel} from "../index";
+import * as s from "themes/Common.s"
 import {string} from "yargs";
 
 export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>) {
@@ -19,7 +20,6 @@ export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>
             app.reset()
             const f = eval(compilationResult.code)
             Transaction.run(null, () => app.rerender = !app.rerender)
-            console.log(app.cellSize)
           }
           })
         ButtonV("NextStep", "fa-solid fa-forward-step", app.theme.nextStepBtnColor)
@@ -31,7 +31,6 @@ export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>
             app.textQueue = app.textQueue.toMutable();
             app.textQueue.clear();
           })
-          console.log(app.places)
         })
       }
     }))

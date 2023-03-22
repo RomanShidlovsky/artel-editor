@@ -87,3 +87,7 @@ export const WrapStyle = css`
 export const Border = css`
   border: 1px solid black;
 `
+
+export const InputStyle = css`
+  border: 1px solid black;
+`

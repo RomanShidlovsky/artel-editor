@@ -34,6 +34,10 @@ const helperArtelFunctions = `
   function установитьПараметрыСетки(cellSize, rowNumber, columnNumber) {
     return app.setNetParams(cellSize, rowNumber, columnNumber)
   }
+
+  function прочитать(hint) {
+    return app.read(hint)
+  }
 `
 
 VBlock.root(() => {

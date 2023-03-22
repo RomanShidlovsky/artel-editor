@@ -1,20 +1,12 @@
 import { cx } from "@emotion/css"
-import {Block, Align, PlainText, lineFeed, use, setContext, Grid} from "verstak"
-import { Markdown } from "verstak-markdown"
-import { Theme } from "themes/Theme"
+import {Block, Align, lineFeed} from "verstak"
 import { App } from "models/App"
 import { InfoBar } from "./InfoBar.v"
 import { StatusBar } from "./StatusBar.v"
 import { Editor } from "./Editor.v"
 import * as s from "themes/Common.s"
-import {Toggle} from "../components/Toggle.v";
-import {observableModel} from "../common/Utils";
 import {refs, Transaction} from "reactronic";
 import {ButtonV} from "./Button.v";
-import {Compilation} from "../../library/artel/packages/compiler/source/compilation/Compilation";
-import {Uri} from "../../library/artel/packages/compiler/source/Uri";
-import {WorkArea} from "./WorkArea.v";
-import cssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
 import {WorkAreaCanvas} from "./WorkAreaCanvas.v";
 
 export function Main(app: App, name: string) {
