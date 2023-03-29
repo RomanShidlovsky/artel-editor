@@ -1,7 +1,6 @@
 import { css } from "@emotion/css"
 
 export const Logo = css`
-  background-color: white;
   padding: 0.25rem !important;
   border-radius: 100% !important;
 
@@ -91,3 +90,5 @@ export const Border = css`
 export const InputStyle = css`
   border: 1px solid black;
 `
+
+

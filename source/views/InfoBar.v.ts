@@ -13,15 +13,16 @@ export function InfoBar(name: string, args?: BlockArgs<HTMLElement, void, void>)
         const app = use(App)
         Block("Logo", {
           render(e, b) {
+            e.style.backgroundColor = app.theme.workAreaColor
             e.className = cx(app.theme.Panel, s.Clickable, s.Logo)
             Img("N*", {
               render(e, b) {
-                e.src = "https://nezaboodka.com/img/star-768x768-circle.png"
+                e.src = "../../public/assets/images/nz-512x512.png"
               }
             })
           }
         })
-        Block(`Verstak ${app.version}`, {
+        Block(`Artel Editor ${app.version}`, {
           widthGrowth: 1,
           render(e, b, base) {
             base()

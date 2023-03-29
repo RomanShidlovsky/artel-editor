@@ -45,23 +45,26 @@ export class App extends ObservableObject {
   textQueue : Map<string, MessageInfo> = new Map<string, MessageInfo>()
 
 
-  rowNumber: number = 25
-  columnNumber: number = 25
-  cellSize: number = 50
+  rowNumber: number = 50
+  columnNumber: number = 50
+  cellSize: number = 75
 
 
   rerender: boolean = false
 
-  constructor(version: string, theme: Theme) {
+  constructor(version: string) {
     super()
     this.sensors = new HtmlSensors()
-    this.themeId = 0;
+    const themeId = localStorage.getItem('themeId')
+    console.log(themeId)
+    this.themeId = themeId ? JSON.parse(themeId) : 1
     this.version = version
-    this.theme = theme
     this.blinkingEffect = false
     this.darkTheme = false
     this.loader = new Loader()
     this.themes = [new LightTheme(), new DarkTheme()]
+    this.theme = this.themes[this.themeId]
+    monaco.editor.setTheme(this.theme.editorTheme)
     for (let i: number = 0; i < this.gridData.length; i++) {
       this.gridData[i] = new Array<string>(5).fill("")
     }
@@ -69,7 +72,7 @@ export class App extends ObservableObject {
 
   @reactive
   protected actualizeBrowserTitle(): void {
-    document.title = `Verstak Demo ${this.version}`
+    document.title = `Artel Editor ${this.version}`
   }
 
   @reactive
@@ -81,7 +84,7 @@ export class App extends ObservableObject {
   async createModel(){
     const client = new ArtelMonacoClient([{
     name: "рисование",
-    sourceFiles: [{name: "main.a", text: `
+    sourceFiles: [{name: "main.art", text: `
       используется артель
       внешняя операция сообщить(позиция: Текст, текст: Текст, цвет: Текст)
       внешняя операция прямоугольник(позиция: Текст, цвет: Текст)
@@ -96,6 +99,7 @@ export class App extends ObservableObject {
   @transactional
   setNextTheme(): void {
     this.themeId = (this.themeId + 1) % this.themes.length
+    localStorage.setItem('themeId', JSON.stringify(this.themeId))
     this.theme = this.themes[this.themeId]
     monaco.editor.setTheme(this.theme.editorTheme)
   }

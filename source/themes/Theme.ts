@@ -11,4 +11,6 @@ export interface Theme {
   Panel : string
   Button : string
   editorTheme: string
+  workAreaColor: string
+  lineColor: string
 }

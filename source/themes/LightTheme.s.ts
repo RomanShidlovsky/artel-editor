@@ -10,6 +10,8 @@ export class LightTheme implements Theme {
   backColor = "white"
   panelColor = "#212121"
   textColor = "black"
+  workAreaColor = "white"
+  lineColor = "black"
   hoverColor = "#dedede"
   editorTheme = "vs"
 

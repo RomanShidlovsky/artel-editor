@@ -11,6 +11,8 @@ export class DarkTheme implements Theme {
   panelColor = "#212121"
   textColor = "white"
   hoverColor = "black"
+  workAreaColor = "#212121"
+  lineColor = "white"
   editorTheme = "vs-dark"
 
   Panel = css`
