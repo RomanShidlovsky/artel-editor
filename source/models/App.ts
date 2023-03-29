@@ -1,7 +1,7 @@
 import {ObservableObject, raw, reactive, transactional} from "reactronic"
-import { BaseHtmlDriver, HtmlSensors } from "verstak"
-import { Theme } from "themes/Theme"
-import { Loader } from "./Loader"
+import {BaseHtmlDriver, HtmlSensors} from "verstak"
+import {Theme} from "themes/Theme"
+import {Loader} from "./Loader"
 import {DarkTheme} from "../themes/DarkTheme.s";
 import {LightTheme} from "../themes/LightTheme.s";
 import * as monaco from 'monaco-editor'
@@ -29,20 +29,20 @@ export class App extends ObservableObject {
   darkTheme: boolean
   themeId: number
   model: monaco.editor.ITextModel | null = null
-  isCreated : boolean = false
+  isCreated: boolean = false
   @raw leftSide: HTMLElement | null = null
   @raw rightSide: HTMLElement | null = null
   @raw resizer: HTMLElement | null = null
   @raw x: number = 0
   @raw y: number = 0
   @raw leftWidth: number | undefined = 0
-  @raw parWidth : number = 0
+  @raw parWidth: number = 0
   @raw canvas: HTMLCanvasElement | null = null
   @raw inputId: string = ""
   newWidth: number = 0
-  gridData : Array<Array<string>> = new Array<Array<string>>(5)
-  places : Map<string, SquareInfo> = new Map<string, SquareInfo>()
-  textQueue : Map<string, MessageInfo> = new Map<string, MessageInfo>()
+  gridData: Array<Array<string>> = new Array<Array<string>>(5)
+  places: Map<string, SquareInfo> = new Map<string, SquareInfo>()
+  textQueue: Map<string, MessageInfo> = new Map<string, MessageInfo>()
 
 
   rowNumber: number = 50
@@ -54,9 +54,9 @@ export class App extends ObservableObject {
 
   constructor(version: string) {
     super()
+    console.log('APP_CONSTRUCTOR')
     this.sensors = new HtmlSensors()
     const themeId = localStorage.getItem('themeId')
-    console.log(themeId)
     this.themeId = themeId ? JSON.parse(themeId) : 1
     this.version = version
     this.blinkingEffect = false
@@ -64,7 +64,7 @@ export class App extends ObservableObject {
     this.loader = new Loader()
     this.themes = [new LightTheme(), new DarkTheme()]
     this.theme = this.themes[this.themeId]
-    monaco.editor.setTheme(this.theme.editorTheme)
+    //monaco.editor.setTheme(this.theme.editorTheme)
     for (let i: number = 0; i < this.gridData.length; i++) {
       this.gridData[i] = new Array<string>(5).fill("")
     }
@@ -80,18 +80,46 @@ export class App extends ObservableObject {
     BaseHtmlDriver.blinkingEffect = this.blinkingEffect ? "verstak-blinking-effect" : undefined
   }
 
-  @reactive
-  async createModel(){
-    const client = new ArtelMonacoClient([{
-    name: "рисование",
-    sourceFiles: [{name: "main.art", text: `
+  async start(e: HTMLElement) {
+    console.log("MODEL_CREATED");
+    const client = new ArtelMonacoClient([
+      {
+        name: 'библиотека',
+        sourceFiles: [{
+          name: 'Основной.арт', text: `
       используется артель
       внешняя операция сообщить(позиция: Текст, текст: Текст, цвет: Текст)
       внешняя операция прямоугольник(позиция: Текст, цвет: Текст)
       внешняя операция установитьПараметрыСетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
       внешняя операция прочитать(подсказка: Текст)
-    `}]
-    }],)
+    `
+        }],
+      },
+    ])
+    const model = await client.getModel(new Worker())
+
+    monaco.editor.create(e, {
+      model,
+    })
+    model.setValue(defaultCode)
+  }
+
+  @reactive
+  async createModel() {
+    console.log('CREATE_MODEL')
+    const client = new ArtelMonacoClient([{
+      name: "рисование",
+      sourceFiles: [{
+        name: "БАЗА.арт", text: `
+      используется артель
+      внешняя операция сообщить(позиция: Текст, текст: Текст, цвет: Текст)
+      внешняя операция прямоугольник(позиция: Текст, цвет: Текст)
+      внешняя операция установитьПараметрыСетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
+      внешняя операция прочитать(подсказка: Текст)
+    `
+      }]
+    }])
+    console.log(client)
     this.model = await client.getModel(new Worker())
     this.model?.setValue(defaultCode)
   }
@@ -105,31 +133,31 @@ export class App extends ObservableObject {
   }
 
   @transactional
-  sendMessage(place: string, message: string, color : string = "black"): void {
+  sendMessage(place: string, message: string, color: string = "black"): void {
     let ind: number[] = this.parseTextPlace(place)
     const messageInfo = new MessageInfo()
     messageInfo.color = color
     messageInfo.body = message
     this.textQueue = this.textQueue.toMutable()
-    if (this.places.has(place)){
+    if (this.places.has(place)) {
       this.places.delete(place);
     }
     this.textQueue.set(place, messageInfo)
-    console.log("send: ",this.textQueue)
+    console.log("send: ", this.textQueue)
     /*this.gridData[ind[0]][ind[1]] = message
     console.log(this.gridData[ind[0]][ind[1]])
     this.rerender = !this.rerender*/
   }
 
-  parseTextPlace(index: string) : number[] {
+  parseTextPlace(index: string): number[] {
     const letters = index.match(/[А-Я]+/)![0];
     const column = this.getColumnNumber(letters)
     const row = parseInt(index.match(/\d+/)![0], 10);
     return [column - 1, row - 1];
   }
 
-  parseSquarePlace(place: string) : number[] {
-    if (place.length == 2){
+  parseSquarePlace(place: string): number[] {
+    if (place.length == 2) {
       return this.parseTextPlace(place);
     }
     let strings = place.split(':');
@@ -164,7 +192,7 @@ export class App extends ObservableObject {
   placeSquare(place: string, borderWidth: number = 1, color: string = "black"): void {
     this.places = this.places.toMutable()
 
-    if (this.places.has(place)){
+    if (this.places.has(place)) {
       this.places.delete(place);
     }
     const squareInfo = new SquareInfo();

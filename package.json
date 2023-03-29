@@ -21,7 +21,7 @@
     "markdown-it": "13.0.1",
     "markdown-it-prism": "2.3.0",
     "medium-editor": "5.23.3",
-    "monaco-editor": "0.34.1",
+    "monaco-editor": "^0.34.0",
     "normalize-url": "8.0.0",
     "prismjs": "1.29.0"
   },

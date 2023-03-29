@@ -2,7 +2,7 @@ import {Align, asComponent, Block, BlockArgs, Canvas, Div, Grid, lineFeed, use} 
 import {App} from "../models/App";
 import * as s from "themes/Common.s"
 import {colors} from "../models/ColorCollection";
-import {CanvasHelper} from "../models/CanvasHelper";
+import {drawNet, placeSquare, placeText} from "../models/CanvasHelper";
 
 export function WorkAreaCanvas(name: string,
                          args?: BlockArgs<HTMLElement, void, void>) {
@@ -28,18 +28,18 @@ export function WorkAreaCanvas(name: string,
               context.fillStyle = app.theme.workAreaColor
               context.fillRect(0,0, e.width, e.height)
 
-              CanvasHelper.drawNet(context, app.cellSize,
+              drawNet(context, app.cellSize,
                 app.columnNumber, app.rowNumber, app.theme);
 
               let contextWidth = context.lineWidth;
 
-              CanvasHelper.placeSquare(context, app.places, app.cellSize);
+              placeSquare(context, app.places, app.cellSize);
 
               context.textAlign = "center"
               context.lineWidth = contextWidth;
               context.fillStyle = app.theme.lineColor;
 
-              CanvasHelper.placeText(context, app.textQueue, app.cellSize);
+              placeText(context, app.textQueue, app.cellSize);
             }
           }
         })

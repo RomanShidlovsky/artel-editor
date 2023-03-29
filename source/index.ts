@@ -1,4 +1,4 @@
-import {Transaction} from "reactronic"
+import {Transaction, Rx} from "reactronic"
 import {HtmlBody, setContext, VBlock} from "verstak"
 import {configureDebugging} from "dbg"
 import {App} from "models/App"
@@ -17,8 +17,11 @@ const version: string = "0.1"
 
 configureDebugging()
 
-const app = Transaction.run(null, () =>
-  new App(version))
+console.log('INDEX')
+
+const app = Transaction.run(null, () => {
+  return new App(version)
+})
 
 
 const helperArtelFunctions = `

@@ -78,7 +78,6 @@ export function Main(app: App, name: string) {
           render(e, b, base) {
             base()
             e.className = cx(s.Panel, s.Important)
-            console.log(app.rerender)
           },
         })
         // Status bar row
