@@ -16,7 +16,7 @@ import {Transaction} from "reactronic";
 //   }
 // }
 
-/*(self as any).MonacoEnvironment = {
+(self as any).MonacoEnvironment = {
   getWorker(_workerId: string, label: string): Worker {
     switch (label) {
       case "json":
@@ -34,7 +34,7 @@ import {Transaction} from "reactronic";
         return new editorWorker()
     }
   }
-}*/
+}
 
 export function Editor(name: string,
                        args?: BlockArgs<HTMLElement, void, void>) {
@@ -42,12 +42,10 @@ export function Editor(name: string,
     Block(name, asComponent(args, {
       render(e) {
         const app = use(App)
-        console.log('EDITOR_CREATE')
-
         if (app.model && !app.isCreated) {
-
           monaco.editor.create(e, {
             model: app.model,
+            automaticLayout: true
           })
           Transaction.run(null, () => app.isCreated = true)
         }

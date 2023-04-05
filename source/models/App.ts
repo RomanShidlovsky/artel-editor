@@ -15,7 +15,8 @@ const defaultCode = `используется рисование
 
 выполнить {
     пусть а = прочитать("Введите значение а:")
-    установитьПараметрыСетки(а, 10, 10)
+    установить-параметры-сетки(а, 10, 10)
+    сообщить("А1", "123", "красный")
 }`
 
 
@@ -64,7 +65,7 @@ export class App extends ObservableObject {
     this.loader = new Loader()
     this.themes = [new LightTheme(), new DarkTheme()]
     this.theme = this.themes[this.themeId]
-    //monaco.editor.setTheme(this.theme.editorTheme)
+    monaco.editor.setTheme(this.theme.editorTheme)
     for (let i: number = 0; i < this.gridData.length; i++) {
       this.gridData[i] = new Array<string>(5).fill("")
     }
@@ -80,33 +81,8 @@ export class App extends ObservableObject {
     BaseHtmlDriver.blinkingEffect = this.blinkingEffect ? "verstak-blinking-effect" : undefined
   }
 
-  async start(e: HTMLElement) {
-    console.log("MODEL_CREATED");
-    const client = new ArtelMonacoClient([
-      {
-        name: 'библиотека',
-        sourceFiles: [{
-          name: 'Основной.арт', text: `
-      используется артель
-      внешняя операция сообщить(позиция: Текст, текст: Текст, цвет: Текст)
-      внешняя операция прямоугольник(позиция: Текст, цвет: Текст)
-      внешняя операция установитьПараметрыСетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
-      внешняя операция прочитать(подсказка: Текст)
-    `
-        }],
-      },
-    ])
-    const model = await client.getModel(new Worker())
-
-    monaco.editor.create(e, {
-      model,
-    })
-    model.setValue(defaultCode)
-  }
-
   @reactive
   async createModel() {
-    console.log('CREATE_MODEL')
     const client = new ArtelMonacoClient([{
       name: "рисование",
       sourceFiles: [{
@@ -114,12 +90,11 @@ export class App extends ObservableObject {
       используется артель
       внешняя операция сообщить(позиция: Текст, текст: Текст, цвет: Текст)
       внешняя операция прямоугольник(позиция: Текст, цвет: Текст)
-      внешняя операция установитьПараметрыСетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
-      внешняя операция прочитать(подсказка: Текст)
+      внешняя операция установить-параметры-сетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
+      внешняя операция прочитать(подсказка: Текст): Число
     `
       }]
     }])
-    console.log(client)
     this.model = await client.getModel(new Worker())
     this.model?.setValue(defaultCode)
   }

@@ -18,7 +18,7 @@ export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>
           if (code != undefined) {
             const compilationResult = compileArtel(code)
             app.reset()
-            const f = eval(compilationResult.code)
+            const f = eval(compilationResult)
             Transaction.run(null, () => app.rerender = !app.rerender)
           }
           })
