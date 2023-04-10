@@ -14,7 +14,7 @@ const ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭ
 const defaultCode = `используется рисование
 
 выполнить {
-    пусть а = прочитать("Введите значение а:")
+    пусть а = прочитать("Введите а")
     установить-параметры-сетки(а, 10, 10)
     сообщить("А1", "123", "красный")
 }`
@@ -91,7 +91,7 @@ export class App extends ObservableObject {
       внешняя операция сообщить(позиция: Текст, текст: Текст, цвет: Текст)
       внешняя операция прямоугольник(позиция: Текст, цвет: Текст)
       внешняя операция установить-параметры-сетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
-      внешняя операция прочитать(подсказка: Текст): Число
+      внешняя параллельная операция прочитать(подсказка: Текст): Число
     `
       }]
     }])
@@ -193,25 +193,30 @@ export class App extends ObservableObject {
     }
   }
 
-  // waitForInput(): Promise<string | number> {
-  //   return new Promise((resolve) => {
-  //     const inputField = document.getElementById(this.inputId) as HTMLInputElement;
-  //
-  //     function handleKeyUp(event: KeyboardEvent) {
-  //       if (event.key === "Enter") {
-  //         if (!isNaN(Number(inputField.value))) {
-  //           resolve(Number(inputField.value));
-  //         } else {
-  //           resolve(inputField.value);
-  //         }
-  //         inputField.removeEventListener("keyup", handleKeyUp);
-  //       }
-  //     }
-  //
-  //     inputField.addEventListener("keyup", handleKeyUp);
-  //   });
-  // }
-  //
+  waitForInput(hint: string): Promise<string | number> {
+    return new Promise((resolve) => {
+      const inputField = document.getElementById(this.inputId) as HTMLInputElement;
+      inputField.placeholder = hint;
+      inputField.hidden = false;
+      inputField.focus();
+      function handleKeyUp(event: KeyboardEvent) {
+        if (event.key === "Enter") {
+          if (!isNaN(Number(inputField.value))) {
+            console.log(inputField.value);
+            resolve(Number(inputField.value));
+          } else {
+            resolve(inputField.value);
+          }
+          inputField.removeEventListener("keyup", handleKeyUp);
+          inputField.hidden = true;
+          inputField.value = "";
+        }
+      }
+
+      inputField.addEventListener("keyup", handleKeyUp);
+    });
+  }
+
 
 
   read(hint: string) {

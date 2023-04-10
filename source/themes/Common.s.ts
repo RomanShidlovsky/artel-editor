@@ -88,7 +88,12 @@ export const Border = css`
 `
 
 export const InputStyle = css`
-  border: 1px solid black;
+  box-shadow: 0.025rem 0.025rem 0.35rem 0 gray;
+  border-radius: 0.25rem;
+  border-color: white;
+  height: 100%;
+  font-size: 30px;
+  margin-left: 0.5%;
+  width: 60%;
+  padding: 5px;
 `
-
-

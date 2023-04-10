@@ -27,7 +27,7 @@ const artelFunctions = `
       внешняя операция сообщить(позиция: Текст, текст: Текст, цвет: Текст)
       внешняя операция прямоугольник(позиция: Текст, цвет: Текст)
       внешняя операция установить-параметры-сетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
-      внешняя операция прочитать(подсказка: Текст): Число
+      внешняя параллельная операция прочитать(подсказка: Текст): Число
 `
 
 const helperArtelFunctions = `
@@ -41,8 +41,8 @@ const helperArtelFunctions = `
     return app.setNetParams(cellSize, rowNumber, columnNumber)
   }
 
-  function прочитать_1(hint) {
-    return app.read(hint)
+  async function прочитать_1(hint) {
+    return await app.waitForInput(hint);
   }
 `
 

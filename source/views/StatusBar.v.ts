@@ -4,7 +4,6 @@ import {ButtonV} from "./Button.v"
 import {Transaction} from "reactronic";
 import {compileArtel} from "../index";
 import * as s from "themes/Common.s"
-import {string} from "yargs";
 
 export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>) {
   return (
@@ -31,6 +30,15 @@ export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>
             app.textQueue = app.textQueue.toMutable();
             app.textQueue.clear();
           })
+        })
+        Input("inputField", {
+          initialize(e) {
+            e.id = "inputID";
+            app.inputId = e.id;
+            e.className = s.InputStyle;
+            e.hidden = true;
+          },
+          widthMin: "300px"
         })
       }
     }))
