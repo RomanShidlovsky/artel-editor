@@ -12,11 +12,21 @@ import {MessageInfo} from "./MessageInfo";
 
 const ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
 const defaultCode = `используется рисование
+используется артель
 
 выполнить {
-    пусть а = прочитать("Введите а")
-    установить-параметры-сетки(а, 10, 10)
-    сообщить("А1", "123", "красный")
+    пусть а = прочитать("Введите число >= 50...")
+    пусть ё = разобрать-строку-в-число(а)
+
+    пока ё == пусто или ё < 50 выполнить
+    {
+        сообщить("А1", "Переделывай!", "красный")
+        а = прочитать("Введите число >= 50...")
+        ё = разобрать-строку-в-число(а)
+    }
+
+    установить-параметры-сетки(ё как Число, 10, 10)
+    сообщить("А1", "Молодец!", "светло-желто-золотистый")
 }`
 
 
@@ -88,10 +98,11 @@ export class App extends ObservableObject {
       sourceFiles: [{
         name: "БАЗА.арт", text: `
       используется артель
-      внешняя операция сообщить(позиция: Текст, текст: Текст, цвет: Текст)
+      внешняя операция сообщить(позиция: Текст, текст: Значение, цвет: Текст)
       внешняя операция прямоугольник(позиция: Текст, цвет: Текст)
       внешняя операция установить-параметры-сетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
-      внешняя параллельная операция прочитать(подсказка: Текст): Число
+      внешняя параллельная операция прочитать(подсказка: Текст): Текст
+      внешняя операция разобрать-строку-в-число(строка: Текст): Число?
     `
       }]
     }])
@@ -108,7 +119,7 @@ export class App extends ObservableObject {
   }
 
   @transactional
-  sendMessage(place: string, message: string, color: string = "black"): void {
+  sendMessage(place: string, message: any, color: string = "black"): void {
     let ind: number[] = this.parseTextPlace(place)
     const messageInfo = new MessageInfo()
     messageInfo.color = color
@@ -193,7 +204,7 @@ export class App extends ObservableObject {
     }
   }
 
-  waitForInput(hint: string): Promise<string | number> {
+  waitForInput(hint: string): Promise<string> {
     return new Promise((resolve) => {
       const inputField = document.getElementById(this.inputId) as HTMLInputElement;
       inputField.placeholder = hint;
@@ -201,12 +212,7 @@ export class App extends ObservableObject {
       inputField.focus();
       function handleKeyUp(event: KeyboardEvent) {
         if (event.key === "Enter") {
-          if (!isNaN(Number(inputField.value))) {
-            console.log(inputField.value);
-            resolve(Number(inputField.value));
-          } else {
-            resolve(inputField.value);
-          }
+          resolve(inputField.value);
           inputField.removeEventListener("keyup", handleKeyUp);
           inputField.hidden = true;
           inputField.value = "";

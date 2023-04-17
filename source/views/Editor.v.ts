@@ -9,6 +9,7 @@ import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
 import Worker from "*?worker";
 import {App} from "../models/App";
 import {Transaction} from "reactronic";
+import {addKeybindings} from "../models/Keybindings";
 
 // declare global {
 //   interface Window {
@@ -43,11 +44,14 @@ export function Editor(name: string,
       render(e) {
         const app = use(App)
         if (app.model && !app.isCreated) {
-          monaco.editor.create(e, {
+          const editor = monaco.editor.create(e, {
             model: app.model,
-            automaticLayout: true
+            automaticLayout: true,
+            language: 'artel'
           })
+          addKeybindings(editor);
           Transaction.run(null, () => app.isCreated = true)
+
         }
       }
     }))
