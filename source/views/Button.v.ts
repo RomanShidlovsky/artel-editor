@@ -1,21 +1,18 @@
-import {Align, asComponent, Block, BlockArgs, I, use} from "verstak";
-import * as s from "themes/Common.s"
+import {Align, Block, I, use} from "verstak";
 import {App} from "../models/App";
-import {Transaction} from "reactronic";
 
 export function ButtonV(
   name: string,
   iconType: string,
   color: string,
   onclick? : ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null,
-  args?: BlockArgs<HTMLElement, void, void>
 ) {
   return(
     Block(name, {
       heightMax : "55px",
       widthMax : "55px",
       alignContent: Align.CenterV + Align.Center,
-      initialize(e, b) {
+      initialize(e) {
         if (onclick) {
           e.onclick = onclick
         }

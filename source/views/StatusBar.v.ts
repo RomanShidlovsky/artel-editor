@@ -1,4 +1,4 @@
-import {Align, asComponent, Block, BlockArgs, Input, use} from "verstak"
+import {asComponent, Block, BlockArgs, Input, use} from "verstak"
 import {App} from "models/App"
 import {ButtonV} from "./Button.v"
 import {Transaction} from "reactronic";
@@ -8,7 +8,7 @@ import * as s from "themes/Common.s"
 export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>) {
   return (
     Block(name, asComponent(args, {
-      render(e,b) {
+      render(e) {
         const app = use(App)
         e.className = app.theme.Panel
 
@@ -17,7 +17,7 @@ export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>
           if (code != undefined) {
             const compilationResult = compileArtel(code)
             app.reset()
-            const f = eval(compilationResult)
+            eval(compilationResult)
             Transaction.run(null, () => app.rerender = !app.rerender)
           }
           })

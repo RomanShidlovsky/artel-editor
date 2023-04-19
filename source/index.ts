@@ -10,26 +10,18 @@ import "../index.css"
 import {DirectoryNode, FileNode, SourceFileState, Workspace} from "../library/artel/packages/compiler/source/project";
 import {Uri} from "../library/artel/packages/compiler/source/common";
 import {Emitter} from "../library/artel/packages/compiler/source/compilation/Emitter";
+import { artelFunctions } from "models/App";
 
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 const version: string = "0.1"
 
 configureDebugging()
 
-console.log('INDEX')
-
 const app = Transaction.run(null, () => {
   return new App(version)
 })
 
-const artelFunctions = `
-      используется артель
-      внешняя операция сообщить(позиция: Текст, текст: Значение, цвет: Текст)
-      внешняя операция прямоугольник(позиция: Текст, цвет: Текст)
-      внешняя операция установить-параметры-сетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
-      внешняя параллельная операция прочитать(подсказка: Текст): Текст
-      внешняя операция разобрать-строку-в-число(строка: Текст): Число?
-`
+
 
 const helperArtelFunctions = `
   function прямоугольник(place, borderWidth, color) {
@@ -58,7 +50,7 @@ const helperArtelFunctions = `
 
 VBlock.root(() => {
   HtmlBody("body", {
-    render(e, b) {
+    render() {
       setContext(App, app)
       Main(app, "Main")
     },
@@ -96,43 +88,3 @@ export function compileArtel(code: string) {
   const emitter = new Emitter(project)
   return emitter.emitToString() + helperArtelFunctions
 }
-
-/*export function compileArtel(code: string) {
-  const compilation = new Compilation(new Uri(['project']), [
-    {
-      uri: new Uri(['project', 'module']),
-      sourceFiles: [
-        {
-          uri: new Uri(['project', 'module', 'sheet.a']),
-          syntax: new Parser(code).parse(),
-        }
-      ]
-    }
-  ])
-  let compilationResult
-  try {
-    const emitterResult = compilation.emitWithDiagnostics()
-    const codeWithHelperFunction = helperArtelFunctions + emitterResult.code
-    const mainFileDiagnostics = emitterResult.diagnostics[1]
-    /!*const syntaxErrors = mainFileDiagnostics.syntax.items.map<LanguageError>(d => ({
-      kind: 'syntax',
-      message: d.message,
-      span: { start: d.range.start, length: d.range.length }
-    }))*!/
-    /!*const semanticErrors = mainFileDiagnostics.semantic.items.map<LanguageError>(d => ({
-      kind: 'semantic',
-      message: d.message,
-      span: { start: d.range.start, length: d.range.length }
-    }))*!/
-    compilationResult = {
-      code: codeWithHelperFunction,
-      //errors: [...syntaxErrors, ...semanticErrors]
-    }
-  } catch (_) {
-    compilationResult = {
-      code: '',
-      errors: [{ kind: 'semantic', message: 'Emitter error', span: { start: 0, length: 1 } }]
-    }
-  }
-  return compilationResult
-}*/

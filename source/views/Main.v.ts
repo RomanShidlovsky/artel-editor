@@ -1,11 +1,11 @@
-import { cx } from "@emotion/css"
-import {Block, Align, lineFeed} from "verstak"
-import { App } from "models/App"
-import { InfoBar } from "./InfoBar.v"
-import { StatusBar } from "./StatusBar.v"
-import { Editor } from "./Editor.v"
+import {cx} from "@emotion/css"
+import {Align, Block, lineFeed} from "verstak"
+import {App} from "models/App"
+import {InfoBar} from "./InfoBar.v"
+import {StatusBar} from "./StatusBar.v"
+import {Editor} from "./Editor.v"
 import * as s from "themes/Common.s"
-import {refs, Transaction} from "reactronic";
+import {Transaction} from "reactronic";
 import {ButtonV} from "./Button.v";
 import {WorkAreaCanvas} from "./WorkAreaCanvas.v";
 
@@ -16,7 +16,7 @@ export function Main(app: App, name: string) {
       triggers: app.rerender,
       alignContent: Align.Top,
       heightGrowth: 1,
-      render(e, b) {
+      render(e) {
         app.parWidth = e.getBoundingClientRect().width
         e.style.backgroundColor = app.theme.backColor
         InfoBar("ToolBar", { widthGrowth: 1 })
@@ -51,16 +51,13 @@ export function Main(app: App, name: string) {
               console.log(app.newWidth, ' ', app.leftWidth)
             }
 
-            const mouseUpHandler = (e : MouseEvent) => {
+            const mouseUpHandler = () => {
               document.removeEventListener('mousemove', mouseMoveHandler)
               document.removeEventListener('mouseup', mouseUpHandler)
             }
 
             const mouseDownHandler = function (e : MouseEvent) {
               app.x = e.clientX
-              console.log(app.x)
-              let rect = app.leftSide?.getBoundingClientRect().width
-              console.log('rect: ', rect)
               app.leftWidth = app.leftSide?.getBoundingClientRect().width!
               document.addEventListener('mousemove', mouseMoveHandler)
               document.addEventListener('mouseup', mouseUpHandler)

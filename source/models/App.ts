@@ -1,5 +1,5 @@
 import {ObservableObject, raw, reactive, transactional} from "reactronic"
-import {BaseHtmlDriver, HtmlSensors} from "verstak"
+import {HtmlSensors} from "verstak"
 import {Theme} from "themes/Theme"
 import {Loader} from "./Loader"
 import {DarkTheme} from "../themes/DarkTheme.s";
@@ -9,6 +9,16 @@ import {ArtelMonacoClient} from "../../library/artel/packages/monaco-client/sour
 import Worker from "../../library/artel/packages/monaco-client/source/worker?worker"
 import {SquareInfo} from "./SquareInfo";
 import {MessageInfo} from "./MessageInfo";
+
+
+export const artelFunctions = `
+      используется артель
+      внешняя операция сообщить(позиция: Текст, текст: Значение, цвет: Текст)
+      внешняя операция прямоугольник(позиция: Текст, цвет: Текст)
+      внешняя операция установить-параметры-сетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
+      внешняя параллельная операция прочитать(подсказка: Текст): Текст
+      внешняя операция разобрать-строку-в-число(строка: Текст): Число?
+`
 
 const ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
 const defaultCode = `используется рисование
@@ -54,8 +64,6 @@ export class App extends ObservableObject {
   gridData: Array<Array<string>> = new Array<Array<string>>(5)
   places: Map<string, SquareInfo> = new Map<string, SquareInfo>()
   textQueue: Map<string, MessageInfo> = new Map<string, MessageInfo>()
-
-
   rowNumber: number = 50
   columnNumber: number = 50
   cellSize: number = 75
@@ -65,7 +73,6 @@ export class App extends ObservableObject {
 
   constructor(version: string) {
     super()
-    console.log('APP_CONSTRUCTOR')
     this.sensors = new HtmlSensors()
     const themeId = localStorage.getItem('themeId')
     this.themeId = themeId ? JSON.parse(themeId) : 1
@@ -87,23 +94,12 @@ export class App extends ObservableObject {
   }
 
   @reactive
-  applyBlinkingEffect(): void {
-    BaseHtmlDriver.blinkingEffect = this.blinkingEffect ? "verstak-blinking-effect" : undefined
-  }
-
-  @reactive
   async createModel() {
     const client = new ArtelMonacoClient([{
       name: "рисование",
       sourceFiles: [{
-        name: "БАЗА.арт", text: `
-      используется артель
-      внешняя операция сообщить(позиция: Текст, текст: Значение, цвет: Текст)
-      внешняя операция прямоугольник(позиция: Текст, цвет: Текст)
-      внешняя операция установить-параметры-сетки(размерКлетки: Число, количестовСтрок: Число, количетсвоСтолбцов: Число)
-      внешняя параллельная операция прочитать(подсказка: Текст): Текст
-      внешняя операция разобрать-строку-в-число(строка: Текст): Число?
-    `
+        name: "рисование.арт",
+        text: artelFunctions
       }]
     }])
     this.model = await client.getModel(new Worker())
@@ -120,7 +116,6 @@ export class App extends ObservableObject {
 
   @transactional
   sendMessage(place: string, message: any, color: string = "black"): void {
-    let ind: number[] = this.parseTextPlace(place)
     const messageInfo = new MessageInfo()
     messageInfo.color = color
     messageInfo.body = message
@@ -129,10 +124,6 @@ export class App extends ObservableObject {
       this.places.delete(place);
     }
     this.textQueue.set(place, messageInfo)
-    console.log("send: ", this.textQueue)
-    /*this.gridData[ind[0]][ind[1]] = message
-    console.log(this.gridData[ind[0]][ind[1]])
-    this.rerender = !this.rerender*/
   }
 
   parseTextPlace(index: string): number[] {
@@ -210,6 +201,7 @@ export class App extends ObservableObject {
       inputField.placeholder = hint;
       inputField.hidden = false;
       inputField.focus();
+
       function handleKeyUp(event: KeyboardEvent) {
         if (event.key === "Enter") {
           resolve(inputField.value);
@@ -221,16 +213,5 @@ export class App extends ObservableObject {
 
       inputField.addEventListener("keyup", handleKeyUp);
     });
-  }
-
-
-
-  read(hint: string) {
-    const result = prompt(hint);
-    if (!isNaN(Number(result))) {
-      return (Number(result));
-    } else {
-      return result;
-    }
   }
 }
