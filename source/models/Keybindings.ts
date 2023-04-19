@@ -1,43 +1,33 @@
 import * as monaco from 'monaco-editor';
 
+interface IKeyBinding {
+  keyMods: number;
+  keyCode: monaco.KeyCode;
+  text: string;
+}
+
+const keyBindings: IKeyBinding[] = [
+  { keyMods: monaco.KeyMod.Alt, keyCode: monaco.KeyCode.Backquote, text: '`' },
+  { keyMods: monaco.KeyMod.Alt, keyCode: monaco.KeyCode.Quote, text: "'" },
+  { keyMods: monaco.KeyMod.Alt | monaco.KeyMod.Shift, keyCode: monaco.KeyCode.Quote, text: '"' },
+  { keyMods: monaco.KeyMod.Alt | monaco.KeyMod.Shift, keyCode: monaco.KeyCode.Backquote, text: '~' },
+  { keyMods: monaco.KeyMod.Alt, keyCode: monaco.KeyCode.BracketLeft, text: '[' },
+  { keyMods: monaco.KeyMod.Alt, keyCode: monaco.KeyCode.BracketRight, text: ']' },
+  { keyMods: monaco.KeyMod.Alt | monaco.KeyMod.Shift, keyCode: monaco.KeyCode.BracketLeft, text: '{' },
+  { keyMods: monaco.KeyMod.Alt | monaco.KeyMod.Shift, keyCode: monaco.KeyCode.BracketRight, text: '}' },
+  { keyMods: monaco.KeyMod.Alt, keyCode: monaco.KeyCode.Comma, text: ',' },
+  { keyMods: monaco.KeyMod.Alt | monaco.KeyMod.Shift, keyCode: monaco.KeyCode.Comma, text: '<' },
+  { keyMods: monaco.KeyMod.Alt, keyCode: monaco.KeyCode.Period, text: '.' },
+  { keyMods: monaco.KeyMod.Alt | monaco.KeyMod.Shift, keyCode: monaco.KeyCode.Period, text: '>' },
+  { keyMods: monaco.KeyMod.Alt, keyCode: monaco.KeyCode.Slash, text: '/' },
+  { keyMods: monaco.KeyMod.Alt, keyCode: monaco.KeyCode.Backslash, text: '\\' },
+  { keyMods: monaco.KeyMod.Alt | monaco.KeyMod.Shift, keyCode: monaco.KeyCode.Backslash, text: '|' }
+];
+
 export function addKeybindings(editor: monaco.editor.IStandaloneCodeEditor) {
-  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.Backquote, function () {
-    editor.trigger("keyboard", "type", { text: "`" });
+  keyBindings.forEach(binding => {
+    editor.addCommand(binding.keyMods | binding.keyCode, () => {
+      editor.trigger('keyboard', 'type', { text: binding.text });
+    });
   });
-  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.Quote, function () {
-    editor.trigger("keyboard", "type", { text: "'" });
-  })
-  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyMod.Shift | monaco.KeyCode.Quote, function () {
-    editor.trigger("keyboard", "type", { text: '"' });
-  })
-  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyMod.Shift | monaco.KeyCode.Backquote, function () {
-    editor.trigger("keyboard", "type", { text: "~" });
-  })
-  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.BracketLeft, function () {
-    editor.trigger("keyboard", "type", { text: "[" });
-  })
-  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.BracketRight, function () {
-    editor.trigger("keyboard", "type", { text: "]" });
-  })
-  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyMod.Shift | monaco.KeyCode.BracketLeft, function () {
-    editor.trigger("keyboard", "type", { text: "{" });
-  })
-  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyMod.Shift | monaco.KeyCode.BracketRight, function () {
-    editor.trigger("keyboard", "type", { text: "}" });
-  })
-  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.Comma, function () {
-    editor.trigger("keyboard", "type", { text: "," });
-  })
-  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyMod.Shift | monaco.KeyCode.Comma, function () {
-    editor.trigger("keyboard", "type", { text: "<" });
-  })
-  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.Period, function () {
-    editor.trigger("keyboard", "type", { text: "." });
-  })
-  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyMod.Shift | monaco.KeyCode.Period, function () {
-    editor.trigger("keyboard", "type", { text: ">" });
-  })
-  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.Slash, function () {
-    editor.trigger("keyboard", "type", { text: "/" });
-  })
 }
