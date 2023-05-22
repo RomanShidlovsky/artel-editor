@@ -14,6 +14,7 @@ export class LightTheme implements Theme {
   lineColor = "black"
   hoverColor = "#dedede"
   editorTheme = "vs"
+  phoneColor = "black"
 
   Panel = css`
     margin: 0.5rem;
@@ -34,4 +35,41 @@ export class LightTheme implements Theme {
       background-color: ${this.hoverColor};
     }
   `
+
+  Smartphone = css`
+  position: relative;
+  width: 360px;
+  height: 610px;
+  margin: auto;
+  border: 16px ${this.phoneColor} solid;
+  border-top-width: 60px;
+  border-bottom-width: 60px;
+  border-radius: 36px;
+
+  :before {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 5px;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #333;
+    border-radius: 10px;
+  }
+
+  :after{
+    content: '';
+    display: block;
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    left: 50%;
+    bottom: -65px;
+    transform: translate(-50%, -50%);
+    background: #333;
+    border-radius: 50%;
+  }
+`
 }

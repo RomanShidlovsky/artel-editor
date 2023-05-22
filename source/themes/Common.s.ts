@@ -97,3 +97,58 @@ export const InputStyle = css`
   width: 60%;
   padding: 5px;
 `
+export const PhoneBlock = css`
+  background-color: #000;
+  border-radius: 40px;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 20px;
+  width: 300px;
+`
+
+
+
+export const SmartphoneWhite = css`
+  position: relative;
+  width: 360px;
+  height: 640px;
+  margin: auto;
+  border: 16px white solid;
+  border-top-width: 60px;
+  border-bottom-width: 60px;
+  border-radius: 36px;
+
+  :before {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 5px;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #333;
+    border-radius: 10px;
+  }
+
+  :after{
+    content: '';
+    display: block;
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    left: 50%;
+    bottom: -65px;
+    transform: translate(-50%, -50%);
+    background: #333;
+    border-radius: 50%;
+  }
+`
+
+
+
+export const Content = css`
+  width: 360px;
+  height: 640px;
+  background: white;
+`

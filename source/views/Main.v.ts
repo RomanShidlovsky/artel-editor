@@ -67,14 +67,10 @@ export function Main(app: App, name: string) {
         })
 
         WorkAreaCanvas("GridExample", {
-          alignContent: Align.Left + Align.Top,
-          //alignFrame: Align.Stretch,
-          widthGrowth: 1,
-          heightGrowth: 0.5,
-          heightMax: "690px",
+
           render(e, b, base) {
             base()
-            e.className = cx(s.Panel, s.Important)
+            e.className = cx(s.Important, app.theme.Smartphone)
           },
         })
         // Status bar row

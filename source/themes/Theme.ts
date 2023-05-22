@@ -10,7 +10,9 @@ export interface Theme {
   hoverColor: string
   Panel : string
   Button : string
+  Smartphone: string
   editorTheme: string
   workAreaColor: string
   lineColor: string
+  phoneColor: string
 }
