@@ -65,7 +65,6 @@ export function Main(app: App, name: string) {
         })
 
         WorkAreaCanvas("GridExample", {
-
           render(e, b, base) {
             base()
             e.className = cx(s.Important, app.theme.Smartphone)

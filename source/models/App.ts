@@ -68,8 +68,8 @@ export class App extends ObservableObject {
   gridData: Array<Array<string>> = new Array<Array<string>>(5)
   places: Map<string, SquareInfo> = new Map<string, SquareInfo>()
   textQueue: Map<string, MessageInfo> = new Map<string, MessageInfo>()
-  rowNumber: number = 50
-  columnNumber: number = 50
+  rowNumber: number = 15
+  columnNumber: number = 15
   cellSize: number = 75
 
 

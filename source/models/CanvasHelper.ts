@@ -13,44 +13,30 @@ export function drawNet(
   theme: Theme
 ) {
   if (context != null) {
-    const app = use(App);
-    let x = cellSize
+    let x = 0
     const yMax = cellSize * (rowNumber + 1)
 
     context.font = "14px Comic Sans MS";
     context.textAlign = "center"
     context.fillStyle = theme.lineColor
     context.strokeStyle = theme.lineColor
-    let textX = cellSize * 1.5
-    let textY = cellSize * 0.75 //+ 3.5
-    const yText = cellSize / 2
-
-    for (let i = 0; i <= columnNumber; i++) {
+    
+    for (let i = 0; i <= columnNumber+1; i++) {
       context.beginPath()
-      context.moveTo(x, cellSize / 2)
+      context.moveTo(x, 0)
       context.lineTo(x, yMax)
       context.stroke()
-      if (i != columnNumber)
-        context.fillText(app.getColumnName(i + 1), textX, textY)
       x += cellSize
-      textX += cellSize
     }
 
-    let y = cellSize
+    let y = 0
     const xMax = cellSize * (columnNumber + 1)
-    textX = cellSize * 0.75
-    textY = 1.6 * cellSize
-    context.textAlign = "end"
-
     for (let i = 0; i <= rowNumber; i++) {
       context.beginPath()
-      context.moveTo(cellSize / 2, y)
+      context.moveTo(0, y)
       context.lineTo(xMax, y)
       context.stroke()
-      if (i != rowNumber)
-        context.fillText((i + 1).toString(), textX, textY)
       y += cellSize
-      textY += cellSize
     }
   }
 }
@@ -66,8 +52,8 @@ export function placeSquare(
     context.lineWidth = value.borderWidth!;
     context.strokeStyle = colors[value.color!];
     const indexes = app.parseSquarePlace(key);
-    const posX = (indexes[0] + 1) * cellSize;
-    const posY = (indexes[1] + 1) * cellSize;
+    const posX = (indexes[0]) * cellSize;
+    const posY = (indexes[1]) * cellSize;
     if (indexes.length == 2) {
       context.strokeRect(posX, posY, cellSize, cellSize);
     } else {
@@ -86,8 +72,8 @@ export function placeText(
   const app = use(App)
   for (let [key, value] of textQueue) {
     const ind = app.parseTextPlace(key)
-    const posX = (ind[0] + 1) * cellSize + cellSize / 2
-    const posY = (ind[1] + 1) * cellSize + cellSize / 2 + 3.5
+    const posX = (ind[0]) * cellSize + cellSize / 2
+    const posY = (ind[1]) * cellSize + cellSize / 2 + 3.5
 
     context.fillStyle = colors[value.color!];
     context.fillText(value.body!, posX, posY)

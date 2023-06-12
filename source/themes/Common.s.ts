@@ -149,28 +149,64 @@ export const SmartphoneWhite = css`
 
 export const Wrapper = css`
   position: relative;
-  overflow: hidden;
-  height: 610px;
   width: 360px;
+  height: 610px;
+  overflow: hidden;
 `
 
-export const TableCanvas = css`
+export const TableContent = css`
   position: absolute;
-  top: 100px;
-  left: 100px;
+  overflow: scroll;
+  ::-webkit-scrollbar{
+    display: none;
+  }
 `
 
 export const ColumnHeaders = css`
   position: absolute;
+  width: 360px;
   top: 0;
-  left: 0;
-  width: 100px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  div {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+  }
+  ::-webkit-scrollbar{
+    display: none;
+  }
+`
+
+export const Centerer = css`
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+`
+
+export const Centered = css`
+  vertical-align: middle;
+  display: inline-block;
 `
 
 export const RowHeaders = css`
   position: absolute;
-  top: 0;
-  left: 100px;
+  height: 610px;
+  left: 0;
+  overflow: hidden;
+  div {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  ::-webkit-scrollbar{
+    display: none;
+  }
 `
 
 export const Content = css`
