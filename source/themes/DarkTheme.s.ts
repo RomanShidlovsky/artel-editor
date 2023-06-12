@@ -14,7 +14,7 @@ export class DarkTheme implements Theme {
   workAreaColor = "#212121"
   lineColor = "white"
   editorTheme = "vs-dark"
-  phoneColor = "#FFE681"
+  phoneColor = "#0d60a8"
 
   Panel = css`
     margin: 0.5rem;
@@ -37,26 +37,26 @@ export class DarkTheme implements Theme {
   `
 
   Smartphone = css`
-  position: relative;
-  width: 360px;
-  height: 610px;
-  margin: auto;
-  border: 16px ${this.phoneColor} solid;
-  border-top-width: 60px;
-  border-bottom-width: 60px;
-  border-radius: 36px;
+    position: relative;
+    width: 360px;
+    height: 610px;
+    margin: auto;
+    border: 16px ${this.phoneColor} solid;
+    border-top-width: 60px;
+    border-bottom-width: 60px;
+    border-radius: 36px;
 
-  :before {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 5px;
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #333;
-    border-radius: 10px;
+    :before {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 5px;
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #333;
+      border-radius: 10px;
   }
 
   :after{

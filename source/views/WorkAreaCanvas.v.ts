@@ -8,22 +8,57 @@ export function WorkAreaCanvas(name: string,
   return (
     Block(name, asComponent(args, {
       render() {
-        Block('qwe', {
+        const app = use(App)
+        Div('TableContainer', {
           widthGrowth: 1,
           heightGrowth: 0.5,
           heightMax: "630px",
-          alignContent: Align.Left + Align.Top,
-          alignFrame: Align.Stretch,
-          initialize(e){
 
+          initialize(e) {
+            e.className = s.Wrapper
           },
           render(e) {
-            e.style.overflow = 'auto'
-            Canvas(name, {
+            Div('RowHeaders', {})
+            Div('ColumnHeaders', {})
+            Canvas('TableCanvas', {
+              initialize(el) {
+                el.className = s.TableCanvas
+
+
+                const mouseMoveHandler = function (e: MouseEvent) {
+                  const dx = e.clientX - app.startX
+                  const dy = e.clientY - app.startY
+                  const leftLimit = -(el.width - el.parentElement!.clientWidth)
+                  const topLimit = -(el.height - el.parentElement!.clientHeight)
+
+                  const newTop = Math.max(topLimit, Math.min(100, app.startTop + dy));
+                  const newLeft = Math.max(leftLimit, Math.min(100, app.startLeft + dx))
+
+                  el.style.top = newTop.toString() + 'px'
+                  el.style.left = newLeft.toString() + 'px'
+                }
+
+                const mouseUpHandler = () => {
+                  el.removeEventListener('mousemove', mouseMoveHandler)
+                  el.removeEventListener('mouseup', mouseUpHandler)
+                  el.removeEventListener('mouseleave', mouseUpHandler)
+                }
+
+                const mouseDownHandler = function (e: MouseEvent) {
+                  app.startX = e.clientX
+                  app.startY = e.clientY
+                  app.startTop = parseInt(el.style.top) || 100;
+                  app.startLeft = parseInt(el.style.left) || 100;
+                  el.addEventListener('mousemove', mouseMoveHandler)
+                  el.addEventListener('mouseup', mouseUpHandler)
+                  el.addEventListener('mouseleave', mouseUpHandler)
+                }
+                el.addEventListener('mousedown', mouseDownHandler)
+              },
               render(e) {
                 const app = use(App)
                 app.canvas = e;
-                e.className = s.Border
+
                 e.width = app.cellSize * (app.columnNumber + 1)
                 e.height = app.cellSize * (app.rowNumber + 1)
 

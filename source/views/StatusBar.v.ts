@@ -21,7 +21,7 @@ export function StatusBar(name: string, args: BlockArgs<HTMLElement, void, void>
             Transaction.run(null, () => app.rerender = !app.rerender)
           }
           })
-        ButtonV("NextStep", "fa-solid fa-forward-step", app.theme.nextStepBtnColor)
+        //ButtonV("NextStep", "fa-solid fa-forward-step", app.theme.nextStepBtnColor)
         ButtonV("Stop","fa-solid fa-stop", app.theme.stopBtnColor)
         ButtonV("ResetCanvas", "fa-solid fa-rotate-right", app.theme.resetBtnColor, () => {
           Transaction.run(null, () => {

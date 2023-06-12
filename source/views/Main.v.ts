@@ -46,9 +46,7 @@ export function Main(app: App, name: string) {
 
             const mouseMoveHandler = function (e : MouseEvent) {
               const dx = e.clientX - app.x
-              console.log()
               Transaction.run(null, () => {app.newWidth = app.leftWidth! + dx - 33;})
-              console.log(app.newWidth, ' ', app.leftWidth)
             }
 
             const mouseUpHandler = () => {

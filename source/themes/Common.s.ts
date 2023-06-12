@@ -73,6 +73,8 @@ export const Button = css`
   }
 `
 
+
+
 export const Resizer = css`
   background-color: unset;
   cursor: col-resize;
@@ -145,7 +147,31 @@ export const SmartphoneWhite = css`
   }
 `
 
+export const Wrapper = css`
+  position: relative;
+  overflow: hidden;
+  height: 610px;
+  width: 360px;
+`
 
+export const TableCanvas = css`
+  position: absolute;
+  top: 100px;
+  left: 100px;
+`
+
+export const ColumnHeaders = css`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+`
+
+export const RowHeaders = css`
+  position: absolute;
+  top: 0;
+  left: 100px;
+`
 
 export const Content = css`
   width: 360px;

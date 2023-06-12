@@ -60,6 +60,10 @@ export class App extends ObservableObject {
   @raw parWidth: number = 0
   @raw canvas: HTMLCanvasElement | null = null
   @raw inputId: string = ""
+  @raw startX: number = 0
+  @raw startY: number = 0
+  @raw startTop: number = 0
+  @raw startLeft: number = 0
   newWidth: number = 0
   gridData: Array<Array<string>> = new Array<Array<string>>(5)
   places: Map<string, SquareInfo> = new Map<string, SquareInfo>()
