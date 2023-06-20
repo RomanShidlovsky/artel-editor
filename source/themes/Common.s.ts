@@ -1,4 +1,4 @@
-import { css } from "@emotion/css"
+import {css} from "@emotion/css"
 
 export const Logo = css`
   padding: 0.25rem !important;
@@ -213,3 +213,6 @@ export const Content = css`
   height: 535px;
   background: white;
 `
+
+
+

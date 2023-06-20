@@ -72,4 +72,34 @@ export class LightTheme implements Theme {
     border-radius: 50%;
   }
 `
+
+  ColumnHeader = css`
+    position: relative;
+    border: none;
+
+    ::before, ::after {
+      position: absolute;
+      content: "";
+      height: 50%;
+      bottom: 0;
+      left: -1px;
+      border-left: 2px solid ${this.lineColor};
+    }
+`
+
+  RowHeader = css`
+    position: relative;
+    border: none;
+    padding-left: 30%;
+    ::before, ::after {
+      position: absolute;
+      content: "";
+      width: 50%;
+    }
+    ::before {
+      right: 0;
+      top: -0.5px;
+      border-top:  2px solid ${this.lineColor};
+    }
+`
 }

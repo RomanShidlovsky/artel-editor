@@ -11,6 +11,8 @@ export interface Theme {
   Panel : string
   Button : string
   Smartphone: string
+  RowHeader: string
+  ColumnHeader: string
   editorTheme: string
   workAreaColor: string
   lineColor: string

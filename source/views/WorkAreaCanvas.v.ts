@@ -42,7 +42,7 @@ export function WorkAreaCanvas(name: string,
                     render(e){
                       e.style.width = `${app.cellSize}px`
                       e.style.height = `${app.cellSize}px`
-                      e.style.border = `1px solid ${app.theme.lineColor}`
+                      e.className = app.theme.RowHeader
                       Span('headerText', {
                         render(e) {
                           e.style.color = app.theme.textColor
@@ -69,7 +69,8 @@ export function WorkAreaCanvas(name: string,
                     for (let column = 0; column < app.columnNumber; column++) {
                       Div(`column-${column+1}`, {
                         render(e){
-                          e.style.border = `1px solid ${app.theme.lineColor}`
+                          e.className = app.theme.ColumnHeader
+                          e.style.paddingTop = `${0.3 * app.cellSize}px`
                           e.style.width = `${app.cellSize}px`
                           e.style.height = `${app.cellSize}px`
 
