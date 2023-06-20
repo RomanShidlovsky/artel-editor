@@ -20,7 +20,7 @@ export function drawNet(
     context.textAlign = "center"
     context.fillStyle = theme.lineColor
     context.strokeStyle = theme.lineColor
-    
+
     for (let i = 0; i <= columnNumber+1; i++) {
       context.beginPath()
       context.moveTo(x, 0)

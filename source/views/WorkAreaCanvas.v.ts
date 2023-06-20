@@ -16,6 +16,7 @@ export function WorkAreaCanvas(name: string,
           if (tableContent) {
             if (rowHeadersContainer) {
               rowHeadersContainer.scrollTop = tableContent.scrollTop
+              console.log('row ', rowHeadersContainer.scrollTop, 'table', tableContent.scrollTop )
             }
             if (columnHeadersContainer) {
               columnHeadersContainer.scrollLeft = tableContent.scrollLeft
@@ -34,9 +35,10 @@ export function WorkAreaCanvas(name: string,
                 rowHeadersContainer = e
               },
               render(e) {
-                e.style.top = `${app.cellSize}px`
+                e.style.top = `${app.cellSize-0.5}px`
+                e.style.height = `${610-app.cellSize}px`
                 for (let row = 0; row < app.rowNumber; row++) {
-                  Div(`row-${row}`, {
+                  Div(`row-${row+1}`, {
                     render(e){
                       e.style.width = `${app.cellSize}px`
                       e.style.height = `${app.cellSize}px`
@@ -59,12 +61,13 @@ export function WorkAreaCanvas(name: string,
               },
               render(e) {
                 e.className = s.ColumnHeaders
-                e.style.left = `${app.cellSize - 1}px`
+                e.style.left = `${app.cellSize}px`
+                e.style.width = `${360-app.cellSize}px`
                 Div('Columns', {
                   render(e) {
-                    e.style.width = `${app.cellSize*app.columnNumber + 1}px`
-                    for (let column = 0; column <= app.columnNumber; column++) {
-                      Div(`column-${column}`, {
+                    e.style.width = `${app.cellSize* (app.columnNumber)}px`
+                    for (let column = 0; column < app.columnNumber; column++) {
+                      Div(`column-${column+1}`, {
                         render(e){
                           e.style.border = `1px solid ${app.theme.lineColor}`
                           e.style.width = `${app.cellSize}px`
@@ -100,7 +103,7 @@ export function WorkAreaCanvas(name: string,
                 e.style.top = `${app.cellSize}px`
                 e.style.left = `${app.cellSize}px`
                 e.style.width = `calc(100% - ${app.cellSize}px)`
-                e.style.height = `calc(100% - ${app.cellSize}px)`
+                e.style.height = `calc(100% - ${app.cellSize-5}px)`
                 Canvas('TableCanvas', {
                   render(e) {
                     const app = use(App)

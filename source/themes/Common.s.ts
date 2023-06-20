@@ -166,8 +166,7 @@ export const ColumnHeaders = css`
   position: absolute;
   width: 360px;
   top: 0;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  overflow: hidden;
   div {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -193,8 +192,8 @@ export const Centered = css`
 
 export const RowHeaders = css`
   position: absolute;
-  height: 610px;
   left: 0;
+  bottom: 0;
   overflow: hidden;
   div {
     box-sizing: border-box;
@@ -211,6 +210,6 @@ export const RowHeaders = css`
 
 export const Content = css`
   width: 360px;
-  height: 640px;
+  height: 535px;
   background: white;
 `
